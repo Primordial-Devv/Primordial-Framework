@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS `society` (
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(60) NOT NULL UNIQUE,
+    `label` VARCHAR(100) NOT NULL,
+    `registration_number` VARCHAR(60) NOT NULL UNIQUE,
+    `isWhitelisted` BOOLEAN NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS `society_grades` (
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `society_name` VARCHAR(60) NOT NULL,
+    `society_grade` INT NOT NULL,
+    `grade_name` VARCHAR(100) NOT NULL,
+    `grade_label` VARCHAR(100) NOT NULL,
+    `grade_salary` DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    `isGradeWhitelisted` BOOLEAN NOT NULL DEFAULT 0,
+    FOREIGN KEY (`society_name`) REFERENCES `society`(`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
