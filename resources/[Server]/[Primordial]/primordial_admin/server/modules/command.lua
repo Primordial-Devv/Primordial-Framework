@@ -96,11 +96,11 @@ end
 
 if AdminCommand.SetJobCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.SetJobCommand.CommandName, {'admin'}, function(sPlayer, args)
-        if not PL.DoesJobExist(args.job, args.grade) then
+        if not PL.DoesSocietyExist(args.job, args.grade) then
             return PL.Print.Error(Translations.command_setjob_invalid:format(args.job, args.grade))
         end
 
-        args.playerId.setJob(args.job, args.grade)
+        args.playerId.setSociety(args.job, args.grade)
 
         PL.Discord.DiscordLogFields("UserActions", "Set Job /setjob Triggered!", "pink", {
             { name = "Player", value = sPlayer and sPlayer.name or "Server Console", inline = true },
@@ -339,7 +339,7 @@ end
 
 if AdminCommand.RefreshJobsCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.RefreshJobsCommand.CommandName, {'admin'}, function()
-        PL.RefreshJobs()
+        PL.RefreshSociety()
     end, true, {
         help = Translations.command_refreshjobs
     })
@@ -403,13 +403,13 @@ end
 
 if AdminCommand.JobCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.JobCommand.CommandName, {'user', 'admin'}, function(sPlayer)
-        PL.Print.Info(("^5%s^0, your job is: ^5%s^0 and you grade is : ^5%s^0"):format(sPlayer.getName(), sPlayer.getJob().name, sPlayer.getJob().grade_label))
+        PL.Print.Info(("^5%s^0, your job is: ^5%s^0 and you grade is : ^5%s^0"):format(sPlayer.getName(), sPlayer.getSociety().name, sPlayer.getSociety().grade_label))
     end, false)
 end
 
 if AdminCommand.InfoCommmad.EnableCommand then
     PL.RegisterCommand(AdminCommand.InfoCommmad.CommandName, {'user', 'admin'}, function(sPlayer)
-        local job = sPlayer.getJob().name
+        local job = sPlayer.getSociety().label
         PL.Print.Info(("ID: ^5%s^0 | Name: ^5%s^0 | Group: ^5%s^0 | Job: ^5%s^0"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), job))
     end, false)
 end
@@ -441,3 +441,39 @@ if AdminCommand.PlayersCommand.EnableCommand then
         end
     end, true)
 end
+
+PL.RegisterCommand('jobs', {'admin'}, function()
+    PL.Print.Debug("Jobs: " .. json.encode(PL.Jobs, { indent = true }))
+end, false)
+
+PL.RegisterCommand('mysociety', {'user', 'admin'}, function(sPlayer)
+    local society = sPlayer.getSociety()  -- Récupère la société du joueur
+
+    if society then
+        -- Récupération des informations liées à la société et au grade
+        local societyData = PL.Jobs[society.name]
+        local gradeData = societyData.grades[tostring(society.grade)]
+
+        local societyInfo = {
+            ['Nom de la société'] = societyData.label,
+            ['Identifiant de la société'] = societyData.name,
+            ['Numéro d\'enregistrement'] = societyData.registration_number,
+            ['Solde de la société'] = PL.Math.GroupDigits(societyData.money) .. ' $',
+            ['IBAN'] = societyData.iban,
+            ['Whitelisted'] = societyData.isWhitelisted and "Oui" or "Non",
+            ['Grade'] = {
+                ['Nom du grade'] = gradeData.label,
+                ['Nom interne'] = gradeData.name,
+                ['Salaire'] = gradeData.salary .. ' $',
+                ['Whitelisted'] = gradeData.isWhitelisted and "Oui" or "Non"
+            }
+        }
+
+        -- Affiche les informations formatées dans la console
+        local formattedSocietyInfo = json.encode(societyInfo, { indent = true })
+        print(("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
+    else
+        -- Si le joueur n'a pas de société assignée
+        print(('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
+    end
+end, false)

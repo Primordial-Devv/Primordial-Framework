@@ -86,7 +86,7 @@ RegisterNetEvent('primordial_core:server:removeLicense')
 AddEventHandler('primordial_core:server:removeLicense', function(target, licenseType, cb)
 	local sPlayer = PL.GetPlayerFromId(source)
 	if sPlayer then 
-		if AllowedJobs[sPlayer.getJob().name] then
+		if AllowedJobs[sPlayer.getSociety().name] then
 			local xTarget = PL.GetPlayerFromId(target)
 			if xTarget then
 				RemoveLicenseFromPlayer(xTarget.getIdentifier(), licenseType, cb)

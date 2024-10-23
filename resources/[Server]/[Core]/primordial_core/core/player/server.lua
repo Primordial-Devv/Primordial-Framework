@@ -1,6 +1,6 @@
 local oneSyncState = GetConvar("onesync", "off")
 local newPlayer = "INSERT INTO `users` SET `accounts` = ?, `identifier` = ?, `group` = ?"
-local loadPlayer = "SELECT `accounts`, `job`, `job_grade`, `group`, `position`, `inventory`, `skin`, `loadout`, `metadata`"
+local loadPlayer = "SELECT `accounts`, `society_name`, `society_grade`, `group`, `position`, `inventory`, `skin`, `loadout`, `metadata`"
 
 if StartingInventoryItems then
     newPlayer = newPlayer .. ", `inventory` = ?"
@@ -23,8 +23,8 @@ function PL.SavePlayer(sPlayer, cb)
     updateHealthAndArmorInMetadata(sPlayer)
     local parameters <const> = {
         json.encode(sPlayer.getAccounts(true)),
-        sPlayer.job.name,
-        sPlayer.job.grade,
+        sPlayer.society.name,
+        sPlayer.society.grade,
         sPlayer.group,
         json.encode(sPlayer.getCoords()),
         json.encode(sPlayer.getInventory(true)),
@@ -34,7 +34,7 @@ function PL.SavePlayer(sPlayer, cb)
     }
 
     MySQL.prepare(
-        "UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ?, `metadata` = ? WHERE `identifier` = ?",
+        "UPDATE `users` SET `accounts` = ?, `society_name` = ?, `society_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ?, `metadata` = ? WHERE `identifier` = ?",
         parameters,
         function(affectedRows)
             if affectedRows == 1 then
@@ -60,8 +60,8 @@ function PL.SavePlayers(cb)
         updateHealthAndArmorInMetadata(sPlayer)
         parameters[#parameters + 1] = {
             json.encode(sPlayer.getAccounts(true)),
-            sPlayer.job.name,
-            sPlayer.job.grade,
+            sPlayer.society.name,
+            sPlayer.society.grade,
             sPlayer.group,
             json.encode(sPlayer.getCoords()),
             json.encode(sPlayer.getInventory(true)),
@@ -72,7 +72,7 @@ function PL.SavePlayers(cb)
     end
 
     MySQL.prepare(
-        "UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ?, `metadata` = ? WHERE `identifier` = ?",
+        "UPDATE `users` SET `accounts` = ?, `society_name` = ?, `society_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ?, `metadata` = ? WHERE `identifier` = ?",
         parameters,
         function(results)
             if not results then
@@ -97,7 +97,7 @@ local function checkTable(key, val, player, sPlayers)
             sPlayers[value] = {}
         end
 
-        if (key == "job" and player.job.name == value) or player[key] == value then
+        if (key == "job" and player.society.name == value) or player[key] == value then
             sPlayers[value][#sPlayers[value] + 1] = player
         end
     end
@@ -112,7 +112,7 @@ function PL.GetExtendedPlayers(key, val)
     else
         for _, v in pairs(PL.Players) do
             if key then
-                if (key == "job" and v.job.name == val) or v[key] == val then
+                if (key == "job" and v.society.name == val) or v[key] == val then
                     sPlayers[#sPlayers + 1] = v
                 end
             else
@@ -289,9 +289,9 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
     end
 
     -- Job
-    local job, grade = result.job, tostring(result.job_grade)
+    local job, grade = result.society_name, tostring(result.society_grade)
 
-    if not PL.DoesJobExist(job, grade) then
+    if not PL.DoesSocietyExist(job, grade) then
         print(("[^3WARNING^7] Ignoring invalid job for ^5%s^7 [job: ^5%s^7, grade: ^5%s^7]"):format(identifier, job, grade))
         job, grade = "unemployed", "0"
     end

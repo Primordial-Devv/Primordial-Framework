@@ -1,11 +1,12 @@
 function StartPayCheck()
     CreateThread(function()
         while true do
-            Wait(1500000) -- 25 minutes
+            -- Wait(1500000) -- 25 minutes
+            Wait(5000)
             for player, sPlayer in pairs(PL.Players) do
-                local jobLabel = sPlayer.job.label
-                local job = sPlayer.job.grade_name
-                local salary = sPlayer.job.grade_salary
+                local jobLabel = sPlayer.society.label
+                local job = sPlayer.society.grade_name
+                local salary = sPlayer.society.grade_salary
 
                 if salary > 0 then
                     if job == "unemployed" then -- unemployed
@@ -19,7 +20,7 @@ function StartPayCheck()
                         })
                         
                     else -- possibly a society
-                        TriggerEvent("primordial_core:server:getSociety", sPlayer.job.name, function(society)
+                        TriggerEvent("primordial_core:server:getSociety", sPlayer.society.name, function(society)
                             if society ~= nil then -- verified society
                                 TriggerEvent("primordial_core:server:society:getSocietyAccount", society.account, function(account)
                                     if account.money >= salary then -- does the society money to pay its employees?

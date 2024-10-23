@@ -55,7 +55,7 @@ MySQL.ready(function()
         Wait(0)
     end
 
-    PL.RefreshJobs()
+    PL.InitSociety()
 
     print(("^5[%s - %s] ^2Framework initialized!"):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0), GetCurrentResourceName()))
 

@@ -190,7 +190,7 @@ function OpenEmployeeList(society, options)
     local elements = {}
 
     for i = 1, #employees, 1 do
-        local gradeLabel = (employees[i].job.grade_label == '' and employees[i].job.label or employees[i].job.grade_label)
+        local gradeLabel = (employees[i].society.grade_label == '' and employees[i].society.label or employees[i].society.grade_label)
         local data = employees[i]
 
         table.insert(elements, {
@@ -257,7 +257,7 @@ function OpenRecruitMenu(society, options)
 	local elements = {}
 
 	for i = 1, #players, 1 do
-		if players[i].job.name ~= society then
+		if players[i].society.name ~= society then
 			table.insert(elements, {
 				title = players[i].name,
 				icon = "fas fa-user",

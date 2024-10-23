@@ -16,10 +16,10 @@ AddEventHandler("playerDropped", function(reason)
 
     if sPlayer then
         TriggerEvent("primordial_core:playerDropped", playerId, reason)
-        local job = sPlayer.getJob().name
+        local job = sPlayer.getSociety().name
         local currentJob = PL.JobsPlayerCount[job]
         PL.JobsPlayerCount[job] = ((currentJob and currentJob > 0) and currentJob or 1) - 1
-        GlobalState[("%s:count"):format(job)] = PL.JobsPlayerCount[job]
+
         PL.playersByIdentifier[sPlayer.identifier] = nil
         PL.SavePlayer(sPlayer, function()
             PL.Players[playerId] = nil
@@ -28,23 +28,22 @@ AddEventHandler("playerDropped", function(reason)
 end)
 
 AddEventHandler("primordial_core:playerLoaded", function(_, sPlayer)
-    local job = sPlayer.getJob().name
-    local jobKey = ("%s:count"):format(job)
+    local job = sPlayer.getSociety().name
 
     PL.JobsPlayerCount[job] = (PL.JobsPlayerCount[job] or 0) + 1
-    GlobalState[jobKey] = PL.JobsPlayerCount[job]
 end)
 
-AddEventHandler("primordial_core:setJob", function(_, job, lastJob)
-    local lastJobKey = ("%s:count"):format(lastJob.name)
-    local jobKey = ("%s:count"):format(job.name)
+AddEventHandler("primordial_core:setSociety", function(_, job, lastJob)
     local currentLastJob = PL.JobsPlayerCount[lastJob.name]
 
     PL.JobsPlayerCount[lastJob.name] = ((currentLastJob and currentLastJob > 0) and currentLastJob or 1) - 1
     PL.JobsPlayerCount[job.name] = (PL.JobsPlayerCount[job.name] or 0) + 1
+end)
 
-    GlobalState[lastJobKey] = PL.JobsPlayerCount[lastJob.name]
-    GlobalState[jobKey] = PL.JobsPlayerCount[job.name]
+RegisterNetEvent('primordial_core:requestJobCount', function(jobName)
+    local source = source
+    local count = PL.JobsPlayerCount[jobName] or 0
+    TriggerClientEvent('primordial_core:receiveJobCount', source, jobName, count)
 end)
 
 AddEventHandler("txAdmin:events:scheduledRestart", function(eventData)

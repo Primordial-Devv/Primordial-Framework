@@ -3,7 +3,7 @@ local Items = require 'modules.items.server'
 
 AddEventHandler('primordial_core:playerDropped', server.playerDropped)
 
-AddEventHandler('primordial_core:setJob', function(source, job, lastJob)
+AddEventHandler('primordial_core:setSociety', function(source, job, lastJob)
 	local inventory = Inventory(source)
 	if not inventory then return end
 	inventory.player.groups[lastJob.name] = nil
@@ -32,7 +32,7 @@ server.accounts.black_money = 0
 ---@diagnostic disable-next-line: duplicate-set-field
 function server.setPlayerData(player)
 	local groups = {
-		[player.job.name] = player.job.grade
+		[player.society.name] = player.society.grade
 	}
 
 	return {
@@ -117,7 +117,7 @@ end
 function server.isPlayerBoss(playerId)
 	local sPlayer = PL.GetPlayerFromId(playerId)
 
-	return sPlayer.job.grade_name == 'boss'
+	return sPlayer.society.grade_name == 'boss'
 end
 
 MySQL.ready(function()

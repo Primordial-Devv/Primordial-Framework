@@ -23,12 +23,12 @@ end)
 ---@param accounts table
 ---@param inventory table
 ---@param weight number
----@param job table
+---@param society table
 ---@param loadout table
 ---@param name string
 ---@param coords table | vector4
 ---@param metadata table
-function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, weight, job, loadout, name, coords, metadata)
+function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, weight, society, loadout, name, coords, metadata)
 
     local self = {}
 
@@ -37,7 +37,7 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     self.group = group
     self.identifier = identifier
     self.inventory = inventory
-    self.job = job
+    self.society = society
     self.loadout = loadout
     self.name = name
     self.playerId = playerId
@@ -53,7 +53,7 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     _TriggerClientEvent("primordial_core:client:receivePlayerData", self.source, {
         identifier = self.identifier,
         license = self.license,
-        job = self.job,
+        society = self.society,
         group = self.group,
         name = self.name,
         metadata = self.metadata
@@ -218,8 +218,8 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     end
 
     ---@return table
-    function self.getJob()
-        return self.job
+    function self.getSociety()
+        return self.society
     end
 
     ---@param minimal boolean
@@ -365,33 +365,33 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
         return Inventory.SetMaxWeight(self.source, newWeight)
     end
 
-    ---@param newJob string
-    ---@param grade string
+    ---@param newSociety string
+    ---@param societyGrade string
     ---@return void
-    function self.setJob(newJob, grade)
-        grade = tostring(grade)
-        local lastJob = self.job
+    function self.setSociety(newSociety, societyGrade)
+        societyGrade = tostring(societyGrade)
+        local lastSociety = self.society
 
-        if not PL.DoesJobExist(newJob, grade) then
-            return PL.Print.Warning(("Ignoring invalid ^1.setJob()^5 usage for ID: ^1%s^5, Job: ^1%s^5"):format(self.source, newJob))
+        if not PL.DoesSocietyExist(newSociety, societyGrade) then
+            return PL.Print.Warning(("Ignoring invalid ^1.setSociety()^5 usage for ID: ^1%s^5, Society: ^1%s^5"):format(self.source, newSociety))
         end
 
-        local jobObject, gradeObject = PL.Jobs[newJob], PL.Jobs[newJob].grades[grade]
+        local societyObject, societyGradeObject = PL.Jobs[newSociety], PL.Jobs[newSociety].grades[societyGrade]
 
-        self.job = {
-            id = jobObject.id,
-            name = jobObject.name,
-            label = jobObject.label,
+        self.society = {
+            id = societyObject.id,
+            name = societyObject.name,
+            label = societyObject.label,
 
-            grade = tonumber(grade),
-            grade_name = gradeObject.name,
-            grade_label = gradeObject.label,
-            grade_salary = gradeObject.salary,
+            grade = tonumber(societyGrade),
+            grade_name = societyGradeObject.name,
+            grade_label = societyGradeObject.label,
+            grade_salary = societyGradeObject.salary,
         }
 
-        _TriggerEvent("primordial_core:setJob", self.source, self.job, lastJob)
-        self.triggerEvent("primordial_core:setJob", self.job, lastJob)
-        _TriggerClientEvent("primordial_core:client:updateJob", self.source, self.job)
+        _TriggerEvent("primordial_core:setSociety", self.source, self.society, lastSociety)
+        self.triggerEvent("primordial_core:setSociety", self.society, lastSociety)
+        _TriggerClientEvent("primordial_core:client:updateSociety", self.source, self.society)
     end
 
     ---@param weaponName string

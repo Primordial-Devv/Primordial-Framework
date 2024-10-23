@@ -9,9 +9,9 @@ local jobBlips = {}
 
 
     -- Event when a player is setjob
-    RegisterNetEvent('primordial_core:setJob')
-    AddEventHandler('primordial_core:setJob', function(job)
-        PL.PlayerData.job = job
+    RegisterNetEvent('primordial_core:setSociety')
+    AddEventHandler('primordial_core:setSociety', function(job)
+        PL.PlayerData.society = job
         ClearJobBlips()
         PrivateBlip()
     end)
@@ -40,7 +40,7 @@ local jobBlips = {}
     end
 
     function PrivateBlip()
-        if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+        if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
             for _, privateBlip in pairs(BlipsEMSWork) do
                 local blipPrivate = AddBlipForCoord(privateBlip["Coords"])
                 SetBlipSprite(blipPrivate, privateBlip["Sprite"])
@@ -82,7 +82,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Gérer l'entreprise",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" and PL.PlayerData.job.grade_name == "boss" or PL.PlayerData.job.grade_name == "second" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" and PL.PlayerData.society.grade_name == "boss" or PL.PlayerData.society.grade_name == "second" then
                                 TriggerEvent('primordial_core:client:openBossMenu', 'ambulance')
                             else
                                 lib.notify({
@@ -110,7 +110,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer du Coton",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupCoton")
                             else
                                 lib.notify({
@@ -127,7 +127,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer du Coton",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupCoton")
                             else
                                 lib.notify({
@@ -153,7 +153,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer de l'alcool",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupAlcool")
                             else
                                 lib.notify({
@@ -170,7 +170,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer de l'alcool",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupAlcool")
                             else
                                 lib.notify({
@@ -196,7 +196,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer du sparadrap",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupSparadrap")
                             else
                                 lib.notify({
@@ -213,7 +213,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer du sparadrap",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupSparadrap")
                             else
                                 lib.notify({
@@ -239,7 +239,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer du plastique",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupPlastique")
                             else
                                 lib.notify({
@@ -256,7 +256,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer du plastique",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupPlastique")
                             else
                                 lib.notify({
@@ -282,7 +282,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer un masque medicale",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupMedicalMask")
                             else
                                 lib.notify({
@@ -299,7 +299,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer un masque medicale",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupMedicalMask")
                             else
                                 lib.notify({
@@ -325,7 +325,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer des capsules d'oxygène",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupOxygene")
                             else
                                 lib.notify({
@@ -342,7 +342,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer des capsules d'oxygène",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupOxygene")
                             else
                                 lib.notify({
@@ -368,7 +368,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Récuperer un defibrilateur",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:startRecupDefibrilateur")
                             else
                                 lib.notify({
@@ -385,7 +385,7 @@ local jobBlips = {}
                         icon = "fa-solid fa-rectangle-list",
                         label = "Arreter de récupérer un defibrilateur",
                         onSelect = function()
-                            if PL.PlayerData.job and PL.PlayerData.job.name == "ambulance" then
+                            if PL.PlayerData.society and PL.PlayerData.society.name == "ambulance" then
                                 TriggerServerEvent("Lys_EMS:Server:stopRecupDefibrilateur")
                             else
                                 lib.notify({

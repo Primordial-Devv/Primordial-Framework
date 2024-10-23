@@ -36,7 +36,7 @@ RegisterNetEvent('primordial_core:playerLoaded', function(data)
     setPlayerData(data)
 end)
 
-RegisterNetEvent('primordial_core:setJob', function(job)
+RegisterNetEvent('primordial_core:setSociety', function(job)
     if source == '' then return end
     playerGroups.job = job
 end)

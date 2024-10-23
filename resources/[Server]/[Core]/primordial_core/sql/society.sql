@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS `society` (
     `name` VARCHAR(60) NOT NULL UNIQUE,
     `label` VARCHAR(100) NOT NULL,
     `registration_number` VARCHAR(60) NOT NULL UNIQUE,
+    `money` DECIMAL(15, 2) NOT NULL DEFAULT 0,
+    `iban`VARCHAR(100) NOT NULL UNIQUE,
     `isWhitelisted` BOOLEAN NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

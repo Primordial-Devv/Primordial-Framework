@@ -36,6 +36,7 @@ server_scripts {
 	'server/classes/player.lua',
 	'server/classes/societyAccount.lua',
 
+	'core/society/initSociety.lua',
 	'core/**/server.lua',
 	'lib/**/**/server.lua',
 	'lib/**/server.lua',

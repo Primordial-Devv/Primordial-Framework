@@ -59,8 +59,8 @@ AddEventHandler("primordial_core:setAccountMoney", function(account)
     PL.SetPlayerData("accounts", PL.PlayerData.accounts)
 end)
 
-RegisterNetEvent("primordial_core:setJob")
-AddEventHandler("primordial_core:setJob", function(Job)
+RegisterNetEvent("primordial_core:setSociety")
+AddEventHandler("primordial_core:setSociety", function(Job)
     PL.SetPlayerData("job", Job)
 end)
 
