@@ -433,7 +433,7 @@ end
 
 if AdminCommand.PlayersCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.PlayersCommand.CommandName, {'admin'}, function()
-        local sPlayers = PL.GetExtendedPlayers() -- Returns all sPlayers
+        local sPlayers = PL.GetExtendedPlayers()
         print(("^5%s^2 online player(s)^0"):format(#sPlayers))
         for i = 1, #sPlayers do
             local sPlayer = sPlayers[i]
@@ -447,10 +447,9 @@ PL.RegisterCommand('jobs', {'admin'}, function()
 end, false)
 
 PL.RegisterCommand('mysociety', {'user', 'admin'}, function(sPlayer)
-    local society = sPlayer.getSociety()  -- Récupère la société du joueur
+    local society = sPlayer.getSociety()
 
     if society then
-        -- Récupération des informations liées à la société et au grade
         local societyData = PL.Jobs[society.name]
         local gradeData = societyData.grades[tostring(society.grade)]
 
@@ -469,11 +468,9 @@ PL.RegisterCommand('mysociety', {'user', 'admin'}, function(sPlayer)
             }
         }
 
-        -- Affiche les informations formatées dans la console
         local formattedSocietyInfo = json.encode(societyInfo, { indent = true })
         print(("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
     else
-        -- Si le joueur n'a pas de société assignée
         print(('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
     end
 end, false)

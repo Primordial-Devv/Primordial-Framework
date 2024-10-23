@@ -14,8 +14,8 @@ function registerSociety(name, label, data)
     local society = {
         name = name,
         label = label,
-        money = data.money or 0,  -- Gestion des comptes intégrée
-        iban = data.iban or nil,  -- IBAN intégré
+        money = data.money or 0,
+        iban = data.iban or nil,
         inventory = data.inventory or {},
         data = data
     }
@@ -33,7 +33,6 @@ AddEventHandler('primordial_core:server:getSociety', function(name, cb)
     cb(GetSociety(name))
 end)
 
--- Gestion du solde d'une société (Retrait)
 RegisterServerEvent('primordial_core:server:withdrawMoney')
 AddEventHandler('primordial_core:server:withdrawMoney', function(societyName, amount)
     local sPlayer = PL.GetPlayerFromId(source)
@@ -54,7 +53,6 @@ AddEventHandler('primordial_core:server:withdrawMoney', function(societyName, am
     end
 end)
 
--- Gestion du solde d'une société (Dépôt)
 RegisterServerEvent('primordial_core:server:depositMoney')
 AddEventHandler('primordial_core:server:depositMoney', function(societyName, amount)
     local sPlayer = PL.GetPlayerFromId(source)
@@ -75,7 +73,6 @@ AddEventHandler('primordial_core:server:depositMoney', function(societyName, amo
     end
 end)
 
--- Récupérer le solde d'une société
 lib.callback.register('primordial_core:server:getSocietyMoney', function(source, societyName)
     local society = GetSociety(societyName)
     if society then
