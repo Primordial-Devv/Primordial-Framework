@@ -25,4 +25,4 @@ function PL.Vehicle.GetNearbyVehicles(coords, maxDistance)
     return nearby
 end
 
-return PL.Vehicle.GetServerNearbyVehicles
+return PL.Vehicle.GetNearbyVehicles

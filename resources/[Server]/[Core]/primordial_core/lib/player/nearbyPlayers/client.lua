@@ -2,7 +2,7 @@
 ---@param coords vector3 The coords to check from.
 ---@param maxDistance? number The max distance to check.
 ---@param includePlayer? boolean Whether or not to include the current player.
----@return { id: number, ped: number, coords: vector3 }[] nearby A list of nearby players.
+---@return { id: number, ped: number, coords: vector3, name: string }[] nearby A list of nearby players.
 function PL.Player.GetNearbyPlayers(coords, maxDistance, includePlayer)
     local players = GetActivePlayers()
     local nearby = {}
@@ -16,6 +16,7 @@ function PL.Player.GetNearbyPlayers(coords, maxDistance, includePlayer)
             local playerPed = GetPlayerPed(playerId)
             local playerCoords = GetEntityCoords(playerPed)
             local distance = #(coords - playerCoords)
+            local playerName = GetPlayerName(playerId)
 
             if distance < maxDistance then
                 count += 1
@@ -23,6 +24,7 @@ function PL.Player.GetNearbyPlayers(coords, maxDistance, includePlayer)
                     id = playerId,
                     ped = playerPed,
                     coords = playerCoords,
+                    name = playerName,
                 }
             end
         end
@@ -31,4 +33,4 @@ function PL.Player.GetNearbyPlayers(coords, maxDistance, includePlayer)
     return nearby
 end
 
-return PL.Player.GetClientNearbyPlayers
+return PL.Player.GetNearbyPlayers

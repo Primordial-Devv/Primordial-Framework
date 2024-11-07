@@ -333,7 +333,7 @@ local function TogglePlayerId()
                 local distance  = #(GetEntityCoords(PlayerPedId()) - playerCoords)
                 if distance < 15 then
                     sleep = 0
-                    Draw3dText(x, y, z + 1.0, ('~r~[~w~%s~r~]~w~ - %s ~r~ / ~s~%s  ~r~ / ~s~%s'):format(GetPlayerServerId(players[i]), GetPlayerName(players[i]), PL.PlayerData.job.name, PL.PlayerData.job.grade_label))
+                    Draw3dText(x, y, z + 1.0, ('~r~[~w~%s~r~]~w~ - %s ~r~ / ~s~%s  ~r~ / ~s~%s'):format(GetPlayerServerId(players[i]), GetPlayerName(players[i]), PL.PlayerData.society.name, PL.PlayerData.society.grade_label))
                 end
             end
             Wait(sleep)

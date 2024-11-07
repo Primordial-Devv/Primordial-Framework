@@ -27,4 +27,4 @@ function PL.Player.GetNearbyPlayers(coords, maxDistance)
     return nearby
 end
 
-return PL.Player.GetServerNearbyPlayers
+return PL.Player.GetNearbyPlayers

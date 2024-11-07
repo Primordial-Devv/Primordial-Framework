@@ -28,4 +28,4 @@ function PL.Ped.GetNearbyPeds(coords, maxDistance)
     return nearby
 end
 
-return PL.Ped.GetClientNearbyPeds
+return PL.Ped.GetNearbyPeds

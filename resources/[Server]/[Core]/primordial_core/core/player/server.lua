@@ -152,10 +152,14 @@ function PL.GetNumPlayers(key, val)
     return #PL.GetExtendedPlayers(key, val)
 end
 
+---@param source number
+---@return xPlayer
 function PL.GetPlayerFromId(source)
     return PL.Players[tonumber(source)]
 end
 
+---@param identifier string
+---@return xPlayer
 function PL.GetPlayerFromIdentifier(identifier)
     return PL.playersByIdentifier[identifier]
 end
@@ -298,7 +302,7 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
 
     local jobObject, gradeObject = PL.Jobs[job], PL.Jobs[job].grades[grade]
 
-    userData.job = {
+    userData.society = {
         id = jobObject.id,
         name = jobObject.name,
         label = jobObject.label,
@@ -336,7 +340,7 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
     userData.metadata = (result.metadata and result.metadata ~= "") and json.decode(result.metadata) or {}
 
     -- sPlayer Creation
-    local sPlayer = CreateStudioPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.job, userData.loadout, GetPlayerName(playerId), userData.coords, userData.metadata)
+    local sPlayer = CreateStudioPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.society, userData.loadout, GetPlayerName(playerId), userData.coords, userData.metadata)
     PL.Players[playerId] = sPlayer
     PL.playersByIdentifier[identifier] = sPlayer
 

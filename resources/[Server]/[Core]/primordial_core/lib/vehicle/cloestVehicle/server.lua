@@ -23,4 +23,4 @@ function PL.Vehicle.GetClosestVehicle(coords, maxDistance)
     return closestVehicle, closestCoords
 end
 
-return PL.Vehicle.GetServerClosestVehicle
+return PL.Vehicle.GetClosestVehicle

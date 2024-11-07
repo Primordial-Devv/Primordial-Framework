@@ -29,4 +29,4 @@ function PL.Vehicle.GetNearbyVehicles(coords, maxDistance, includePlayerVehicle)
     return nearby
 end
 
-return PL.Vehicle.GetClientNearbyVehicles
+return PL.Vehicle.GetNearbyVehicles

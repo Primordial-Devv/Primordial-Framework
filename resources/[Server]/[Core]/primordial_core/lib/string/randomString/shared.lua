@@ -18,4 +18,4 @@ function PL.String.GetRandomString(length)
     return length > 0 and PL.Print.GetRandomString(length - 1) .. Charset[math.random(1, #Charset)] or ""
 end
 
-return PL.Print.GetRandomString
+return PL.String.GetRandomString

@@ -61,7 +61,7 @@ end)
 
 RegisterNetEvent("primordial_core:setSociety")
 AddEventHandler("primordial_core:setSociety", function(Job)
-    PL.SetPlayerData("job", Job)
+    PL.SetPlayerData("society", Job)
 end)
 
 RegisterNetEvent("primordial_core:setGroup")

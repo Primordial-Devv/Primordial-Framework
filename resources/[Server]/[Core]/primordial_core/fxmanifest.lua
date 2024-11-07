@@ -34,17 +34,15 @@ server_scripts {
 	'server/common.lua',
 
 	'server/classes/player.lua',
-	'server/classes/societyAccount.lua',
 
 	'core/society/initSociety.lua',
+	'core/society/society.lua',
 	'core/**/server.lua',
 	'lib/**/**/server.lua',
 	'lib/**/server.lua',
 	'server/modules/adminPermissions.lua',
 	'server/modules/events.lua',
 
-	'server/modules/societyAccount.lua',
-	'server/modules/society.lua',
 	'server/modules/playerLicense.lua',
 	'server/paycheck.lua',
 
@@ -60,6 +58,8 @@ client_scripts {
 
 	'client/modules/events.lua',
 	'client/modules/callbacks.lua',
+
+	'core/society/menu/*.lua',
 
 	'core/modules/*.lua',
 	'core/modules/**/client.lua',

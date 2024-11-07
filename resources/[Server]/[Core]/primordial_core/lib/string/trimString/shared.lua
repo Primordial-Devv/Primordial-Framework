@@ -8,4 +8,4 @@ function PL.String.Trim(value)
     end
 end
 
-return PL.Math.Trim
+return PL.String.Trim

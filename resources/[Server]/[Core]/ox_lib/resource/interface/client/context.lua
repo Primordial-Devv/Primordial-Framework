@@ -51,7 +51,7 @@ function lib.showContext(id)
     local data = contextMenus[id]
     openContextMenu = id
 
-    lib.setNuiFocus(true)
+    lib.setNuiFocus(false)
 
     SendNuiMessage(json.encode({
         action = 'showContext',

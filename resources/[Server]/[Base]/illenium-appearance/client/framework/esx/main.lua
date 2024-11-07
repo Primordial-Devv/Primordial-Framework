@@ -5,7 +5,7 @@ Framework.PlayerData = nil
 
 RegisterNetEvent("primordial_core:playerLoaded", function(sPlayer)
     Framework.PlayerData = sPlayer
-    client.job = Framework.PlayerData.job
+    client.job = Framework.PlayerData.society
     client.gang = Framework.PlayerData.gang
     client.citizenid = Framework.PlayerData.identifier
     InitAppearance()
@@ -16,9 +16,9 @@ RegisterNetEvent("primordial_core:onPlayerLogout", function()
 end)
 
 RegisterNetEvent("primordial_core:setJob", function(job)
-	Framework.PlayerData.job = job
-    client.job = Framework.PlayerData.job
-    client.gang = Framework.PlayerData.job
+	Framework.PlayerData.society = job
+    client.job = Framework.PlayerData.society
+    client.gang = Framework.PlayerData.society
 end)
 
 local function getRankInputValues(rankList)
@@ -44,8 +44,8 @@ function Framework.UpdatePlayerData()
     local data = PL.GetPlayerData()
     if data.job then
         Framework.PlayerData = data
-        client.job = Framework.PlayerData.job
-        client.gang = Framework.PlayerData.job
+        client.job = Framework.PlayerData.society
+        client.gang = Framework.PlayerData.society
     end
     client.citizenid = Framework.PlayerData.identifier
 end

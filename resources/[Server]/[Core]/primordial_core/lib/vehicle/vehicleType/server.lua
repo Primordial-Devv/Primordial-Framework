@@ -2,7 +2,7 @@
 ---@param player number playerId
 ---@param cb function
 
-function PL.GetVehicleType(model, player, cb)
+function PL.Vehicle.GetVehicleType(model, player, cb)
     model = type(model) == "string" and joaat(model) or model
 
     if PL.vehicleTypesByModel[model] then
@@ -13,3 +13,5 @@ function PL.GetVehicleType(model, player, cb)
     PL.vehicleTypesByModel[model] = vehicleType
     cb(vehicleType)
 end
+
+return PL.Vehicle.GetVehicleType

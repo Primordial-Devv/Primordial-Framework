@@ -5,13 +5,36 @@ function PL.IsPlayerLoaded()
 end
 
 function PL.GetPlayerData()
-    return PL.PlayerData
+    PL.PlayerData.inventory = exports['qs-inventory']:getUserInventory()
+    -- return PL.PlayerData
+end
+
+---@param societyName string
+---@param societyGrade? string | string[]
+function PL.PlayerIsInSociety(societyName, societyGrade)
+    local data <const> = PL.PlayerData;
+    local society <const> = data.society;
+    if (society and society.name == societyName) then
+        if (societyGrade) then
+            if (type(societyGrade) == "table") then
+                for i = 1, #societyGrade do
+                    if society.grade_name == societyGrade[i] then
+                        return true;
+                    end
+                end
+                return false;
+            end
+            return society.grade_name == societyGrade
+        end
+        return true;
+    end
+    return false;
 end
 
 function PL.SetPlayerData(key, val)
     local current = PL.PlayerData[key]
     PL.PlayerData[key] = val
-    if key ~= "inventory" and key ~= "loadout" then
+    if key ~= "inventory" and key ~= "loadout" and key ~= "coords" then
         if type(val) == "table" or val ~= current then
             TriggerEvent("primordial_core:setPlayerData", key, val, current)
         end

@@ -26,4 +26,4 @@ function PL.Ped.GetClosestPed(coords, maxDistance)
 	return closestPed, closestCoords
 end
 
-return PL.Ped.GetClientClosestPed
+return PL.Ped.GetClosestPed

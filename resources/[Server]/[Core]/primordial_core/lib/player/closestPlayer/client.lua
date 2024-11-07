@@ -30,4 +30,4 @@ function PL.Player.GetClosestPlayer(coords, maxDistance, includePlayer)
 	return closestId, closestPed, closestCoords
 end
 
-return PL.Player.GetClientClosestPlayer
+return PL.Player.GetClosestPlayer

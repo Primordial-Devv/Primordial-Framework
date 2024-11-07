@@ -13,8 +13,6 @@ end
 
 PL = exports["primordial_core"]:getSharedObject()
 
-OnPlayerData = function (key, val, last) end
-
 if not IsDuplicityVersion() then -- Only register this event for the client
     AddEventHandler("primordial_core:setPlayerData", function(key, val, last)
         if GetInvokingResource() == "primordial_core" then

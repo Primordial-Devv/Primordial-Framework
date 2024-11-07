@@ -29,7 +29,7 @@ function PL.Type.AssertType(value, expectedTypes)
 
     local expectedTypesStr = ""
     if type(expectedTypes) == "string" then
-        expectedTypesStr = expectedTypes
+        expectedTypesStr = expectedTypes    
     elseif type(expectedTypes) == "table" then
         expectedTypesStr = table.concat(expectedTypes, " or ")
     end

@@ -442,35 +442,37 @@ if AdminCommand.PlayersCommand.EnableCommand then
     end, true)
 end
 
-PL.RegisterCommand('jobs', {'admin'}, function()
-    PL.Print.Debug("Jobs: " .. json.encode(PL.Jobs, { indent = true }))
-end, false)
+AddEventHandler('primordial_core:server:societyLoaded', function(jobs)
+    PL.RegisterCommand('jobs', {'admin'}, function()
+        PL.Print.Debug("Jobs: " .. json.encode(jobs, { indent = true }))
+    end, false)
 
-PL.RegisterCommand('mysociety', {'user', 'admin'}, function(sPlayer)
-    local society = sPlayer.getSociety()
+    PL.RegisterCommand('mysociety', {'user', 'admin'}, function(sPlayer)
+        local society = sPlayer.getSociety()
 
-    if society then
-        local societyData = PL.Jobs[society.name]
-        local gradeData = societyData.grades[tostring(society.grade)]
+        if society then
+            local societyData = jobs[society.name]
+            local gradeData = societyData.grades[tostring(society.grade)]
 
-        local societyInfo = {
-            ['Nom de la société'] = societyData.label,
-            ['Identifiant de la société'] = societyData.name,
-            ['Numéro d\'enregistrement'] = societyData.registration_number,
-            ['Solde de la société'] = PL.Math.GroupDigits(societyData.money) .. ' $',
-            ['IBAN'] = societyData.iban,
-            ['Whitelisted'] = societyData.isWhitelisted and "Oui" or "Non",
-            ['Grade'] = {
-                ['Nom du grade'] = gradeData.label,
-                ['Nom interne'] = gradeData.name,
-                ['Salaire'] = gradeData.salary .. ' $',
-                ['Whitelisted'] = gradeData.isWhitelisted and "Oui" or "Non"
+            local societyInfo = {
+                ['Nom de la société'] = societyData.label,
+                ['Identifiant de la société'] = societyData.name,
+                ['Numéro d\'enregistrement'] = societyData.registration_number,
+                ['Solde de la société'] = PL.Math.GroupDigits(societyData.money) .. ' $',
+                ['IBAN'] = societyData.iban,
+                ['Whitelisted'] = societyData.isWhitelisted and "Oui" or "Non",
+                ['Grade'] = {
+                    ['Nom du grade'] = gradeData.label,
+                    ['Nom interne'] = gradeData.name,
+                    ['Salaire'] = gradeData.salary .. ' $',
+                    ['Whitelisted'] = gradeData.isWhitelisted and "Oui" or "Non"
+                }
             }
-        }
 
-        local formattedSocietyInfo = json.encode(societyInfo, { indent = true })
-        print(("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
-    else
-        print(('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
-    end
-end, false)
+            local formattedSocietyInfo = json.encode(societyInfo, { indent = true })
+            print(("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
+        else
+            print(('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
+        end
+    end, false)
+end)

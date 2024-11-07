@@ -72,9 +72,23 @@ function PL.InitSociety()
         PL.Jobs = Jobs
     end
 
+    TriggerEvent('primordial_core:server:societyLoaded', PL.Jobs)
     PL.Print.Info('Societies have been loaded successfully.')
     return true
 end
+
+---@param source number
+local function sendSocietyToPlayer(source)
+    local player = PL.GetPlayerFromId(source);
+    if (not player) then return end;
+    local society <const> = player.getSociety();
+    if (type(society) == "table") then
+        player.triggerEvent('primordial_core:sendPlayerSociety', PL.Jobs[society.name]);
+    end
+end
+
+AddEventHandler('primordial_core:playerLoaded', sendSocietyToPlayer);
+AddEventHandler('primordial_core:setSociety', sendSocietyToPlayer);
 
 function PL.RefreshSociety()
     if PL.InitSociety() then

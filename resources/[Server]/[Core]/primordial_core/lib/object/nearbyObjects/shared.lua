@@ -26,4 +26,4 @@ function PL.Object.GetNearbyObjects(coords, maxDistance)
     return nearby
 end
 
-return PL.Object.GetClientNearbyObjects
+return PL.Object.GetNearbyObjects

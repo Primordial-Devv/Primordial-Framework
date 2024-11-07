@@ -69,13 +69,13 @@ local function PlayerDataInfo(targetId, targetName)
     }
 
     lib.registerContext({
-        id = 'pl_admin_playerData_menu',
+        id = 'primordial_admin_playerData_menu',
         title = Translations.player_data_title:format(targetName),
-        menu = 'pl_admin_playerOptions_menu',
+        menu = 'primordial_admin_player_list_options',
         options = playerData
     })
 
-    lib.showContext('pl_admin_playerData_menu')
+    lib.showContext('primordial_admin_playerData_menu')
 end
 
 local function GiveMoneyToPLayer(targetId, targetName)

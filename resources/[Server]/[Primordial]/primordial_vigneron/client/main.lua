@@ -17,7 +17,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    if PL.PlayerData.job and PL.PlayerData.job.name == 'vigneron' then
+    if PL.PlayerIsInSociety('vigneron') then
         for _, bliData in pairs(VigneronWorkBlip) do
             local blip = AddBlipForCoord(bliData.Coords)
             SetBlipSprite(blip, bliData.Sprite)
@@ -46,6 +46,6 @@ AddEventHandler('primordial_core:playerLoaded', function(sPlayer)
 end)
 
 AddEventHandler('primordial_core:setJob', function(job)
-    PL.PlayerData.job = job
+    PL.PlayerData.society = job
     ClearWorkBlips()
 end)

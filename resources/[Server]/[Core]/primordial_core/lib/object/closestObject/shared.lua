@@ -23,4 +23,4 @@ function PL.Object.GetClosestObject(coords, maxDistance)
     return closestObject, closestCoords
 end
 
-return PL.Object.GetClientClosestObject
+return PL.Object.GetClosestObject

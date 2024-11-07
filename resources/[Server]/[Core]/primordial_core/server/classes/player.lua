@@ -7,9 +7,6 @@ local _SetEntityHeading = SetEntityHeading
 local _TriggerClientEvent = TriggerClientEvent
 local _DropPlayer = DropPlayer
 local _TriggerEvent = TriggerEvent
-local _GiveWeaponToPed = GiveWeaponToPed
-local _SetPedAmmo = SetPedAmmo
-local _RemoveWeaponFromPed = RemoveWeaponFromPed
 local _assert = assert
 local Inventory
 
@@ -28,8 +25,10 @@ end)
 ---@param name string
 ---@param coords table | vector4
 ---@param metadata table
+---@return sPlayer
 function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, weight, society, loadout, name, coords, metadata)
 
+    ---@class sPlayer
     local self = {}
 
     self.accounts = accounts
