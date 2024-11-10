@@ -60,19 +60,21 @@ end
 
 MySQL.ready(function()
     PL.DatabaseConnected = true
-    TriggerEvent("__cfx_export_ox_inventory_Items", function(ref)
-        if ref then
-            PL.Items = ref()
-        end
-    end)
+    PL.Items = exports['qs-inventory']:GetItemList()
+    
+    -- TriggerEvent("__cfx_export_ox_inventory_Items", function(ref)
+    --     if ref then
+    --         PL.Items = ref()
+    --     end
+    -- end)
 
-    AddEventHandler("ox_inventory:itemList", function(items)
-        PL.Items = items
-    end)
+    -- AddEventHandler("ox_inventory:itemList", function(items)
+    --     PL.Items = items
+    -- end)
 
-    while not next(PL.Items) do
-        Wait(0)
-    end
+    -- while not next(PL.Items) do
+    --     Wait(0)
+    -- end
 
     PL.InitSociety()
 

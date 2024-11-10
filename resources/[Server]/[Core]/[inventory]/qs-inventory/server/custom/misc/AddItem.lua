@@ -80,16 +80,12 @@ function AddItem(source, item, amount, slot, info, data, created, lastinventory,
                 TriggerEvent('qb-inventory:server:itemAdded', source, item, amount, inventory[slot].amount)
                 TriggerClientEvent('qb-inventory:client:itemAdded', source, item, amount, inventory[slot].amount)
 
-                if Config.Framework == 'qb' then
-                    local player = GetPlayerFromId(source)
-                    player.Functions.SetPlayerData('items', inventory)
-                end
-                if inventory[slot] and inventory[slot].name == 'money' and Config.Framework == 'esx' then
+                if inventory[slot] and inventory[slot].name == 'money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'money')
                     player.setAccountMoney('money', money, 'dropped')
                 end
-                if inventory[slot] and inventory[slot].name == 'black_money' and Config.Framework == 'esx' then
+                if inventory[slot] and inventory[slot].name == 'black_money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'black_money')
                     player.setAccountMoney('black_money', money, 'dropped')
@@ -115,16 +111,12 @@ function AddItem(source, item, amount, slot, info, data, created, lastinventory,
                 TriggerEvent('qb-inventory:server:itemAdded', source, item, amount, amount)
                 TriggerClientEvent('qb-inventory:client:itemAdded', source, item, amount, amount)
 
-                if Config.Framework == 'qb' then
-                    local player = GetPlayerFromId(source)
-                    player.Functions.SetPlayerData('items', inventory)
-                end
-                if inventory[slot] and inventory[slot].name == 'money' and Config.Framework == 'esx' then
+                if inventory[slot] and inventory[slot].name == 'money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'money')
                     player.setAccountMoney('money', money, 'dropped')
                 end
-                if inventory[slot] and inventory[slot].name == 'black_money' and Config.Framework == 'esx' then
+                if inventory[slot] and inventory[slot].name == 'black_money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'black_money')
                     player.setAccountMoney('black_money', money, 'dropped')
@@ -151,19 +143,15 @@ function AddItem(source, item, amount, slot, info, data, created, lastinventory,
                             slot = i,
                             info = info
                         })
-                        if inventory[slot] and inventory[slot].name == 'money' and Config.Framework == 'esx' then
+                        if inventory[slot] and inventory[slot].name == 'money' and Config.Framework == 'primordial' then
                             local player = GetPlayerFromId(source)
                             local money = GetItemTotalAmount(source, 'money')
                             player.setAccountMoney('money', money, 'dropped')
                         end
-                        if inventory[slot] and inventory[slot].name == 'black_money' and Config.Framework == 'esx' then
+                        if inventory[slot] and inventory[slot].name == 'black_money' and Config.Framework == 'primordial' then
                             local player = GetPlayerFromId(source)
                             local money = GetItemTotalAmount(source, 'black_money')
                             player.setAccountMoney('black_money', money, 'dropped')
-                        end
-                        if Config.Framework == 'qb' then
-                            local player = GetPlayerFromId(source)
-                            player.Functions.SetPlayerData('items', inventory)
                         end
                         if not ContainsItem(itemsToCheck, inventory[i].name) then
                             Debug("Item added to player's inventory:", source, 'Item:', inventory[i].name, 'Amount:', inventory[i].amount)

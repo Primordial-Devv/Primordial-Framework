@@ -124,12 +124,11 @@ RegisterCommand('checkitem', function(source)
 end)
 
 RegisterCommand('rob', function(source)
-	if Config.Framework == 'esx' then return end
+	if Config.Framework == 'primordial' then return end
 	TriggerClientEvent('police:client:RobPlayer', source)
 end)
 
 RegisterCommand('invitems', function(source)
-	if Config.Framework == 'qb' then return end
 	local playerId = tonumber(source)
 	local xPlayer = GetPlayerFromId(playerId)
 	local inventory = xPlayer.getInventory(playerId)

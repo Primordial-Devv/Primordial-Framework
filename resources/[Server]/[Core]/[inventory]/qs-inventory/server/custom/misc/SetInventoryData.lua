@@ -271,10 +271,10 @@ RegisterNetEvent(Config.InventoryPrefix .. ':server:SetInventoryData', function(
 					SendWebhook(Webhooks.drop, 'Deposit Item', 7393279, '**' .. GetPlayerName(src) .. ' (id: ' .. src .. ') deposit item in drop!**\n**Name:** ' .. itemInfo['name'] .. '\n**Amount:** ' .. fromAmount .. '\n**Drop id:** ' .. toInventory)
 					if itemInfo['name'] == 'radio' then
 						TriggerClientEvent('Radio.Set', src, false)
-					elseif itemInfo['name'] == 'money' and Config.Framework == 'esx' then
+					elseif itemInfo['name'] == 'money' and Config.Framework == 'primordial' then
 						local money = GetItemTotalAmount(src, 'money')
 						Player.setAccountMoney('money', money, 'dropped')
-					elseif itemInfo['name'] == 'black_money' and Config.Framework == 'esx' then
+					elseif itemInfo['name'] == 'black_money' and Config.Framework == 'primordial' then
 						local money = GetItemTotalAmount(src, 'black_money')
 						Player.setAccountMoney('black_money', money, 'dropped')
 					end
@@ -717,10 +717,10 @@ RegisterNetEvent(Config.InventoryPrefix .. ':server:SetInventoryData', function(
 							SendWebhook(Webhooks.swap, 'Swapped Item', 7393279, '**' .. GetPlayerName(src) .. ' (id: ' .. src .. ') swapped item!**\n**Name:** ' .. toItemData.name .. '\n**Amount:** ' .. toAmount .. '\n**With item:** ' .. fromItemData.name .. '\n**Amount:** ' .. fromAmount .. '\n**Dropid:** ' .. fromInventory)
 							if itemInfo['name'] == 'radio' then
 								TriggerClientEvent('Radio.Set', src, false)
-							elseif itemInfo['name'] == 'money' and Config.Framework == 'esx' then
+							elseif itemInfo['name'] == 'money' and Config.Framework == 'primordial' then
 								local money = GetItemTotalAmount(src, 'money')
 								Player.setAccountMoney('money', money, 'dropped')
-							elseif itemInfo['name'] == 'black_money' and Config.Framework == 'esx' then
+							elseif itemInfo['name'] == 'black_money' and Config.Framework == 'primordial' then
 								local money = GetItemTotalAmount(src, 'black_money')
 								Player.setAccountMoney('black_money', money, 'dropped')
 							end
@@ -746,10 +746,10 @@ RegisterNetEvent(Config.InventoryPrefix .. ':server:SetInventoryData', function(
 							AddToDrop(fromInventory, fromSlot, itemInfo['name'], toAmount, toItemData.info, fromItemData['created'])
 							if itemInfo['name'] == 'radio' then
 								TriggerClientEvent('Radio.Set', src, false)
-							elseif itemInfo['name'] == 'money' and Config.Framework == 'esx' then
+							elseif itemInfo['name'] == 'money' and Config.Framework == 'primordial' then
 								local money = GetItemTotalAmount(src, 'money')
 								Player.setAccountMoney('money', money, 'dropped')
-							elseif itemInfo['name'] == 'black_money' and Config.Framework == 'esx' then
+							elseif itemInfo['name'] == 'black_money' and Config.Framework == 'primordial' then
 								local money = GetItemTotalAmount(src, 'black_money')
 								Player.setAccountMoney('black_money', money, 'dropped')
 							end
@@ -764,10 +764,10 @@ RegisterNetEvent(Config.InventoryPrefix .. ':server:SetInventoryData', function(
 				SendWebhook(Webhooks.drop, 'Deposit Item', 7393279, '**' .. GetPlayerName(src) .. ' (id: ' .. src .. ') deposit item in drop!**\n**Name:** ' .. itemInfo['name'] .. '\n**Amount:** ' .. fromAmount .. '\n**Drop id:** ' .. toInventory)
 				if itemInfo['name'] == 'radio' then
 					TriggerClientEvent('Radio.Set', src, false)
-				elseif itemInfo['name'] == 'money' and Config.Framework == 'esx' then
+				elseif itemInfo['name'] == 'money' and Config.Framework == 'primordial' then
 					local money = GetItemTotalAmount(src, 'money')
 					Player.setAccountMoney('money', money, 'dropped')
-				elseif itemInfo['name'] == 'black_money' and Config.Framework == 'esx' then
+				elseif itemInfo['name'] == 'black_money' and Config.Framework == 'primordial' then
 					local money = GetItemTotalAmount(src, 'black_money')
 					Player.setAccountMoney('black_money', money, 'dropped')
 				end

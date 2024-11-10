@@ -6,25 +6,25 @@
     of the framework that you use in its latest version and it will work perfectly.
 ]]
 
-if Config.Framework ~= 'esx' then
+if Config.Framework ~= 'primordial' then
     return
 end
 
-ESX = exports['es_extended']:getSharedObject()
+PL = exports["primordial_core"]:getSharedObject()
 
-RegisterNetEvent('esx:playerLoaded', function()
+RegisterNetEvent('primordial_core:playerLoaded', function()
     CreateBlips()
     CreatePeds()
     TriggerServerEvent('shops:server:SetShopList')
 end)
 
 function GetPlayerData()
-    return ESX.GetPlayerData()
+    return PL.GetPlayerData()
 end
 
-RegisterNetEvent('esx:setJob', function(jobInfo)
+RegisterNetEvent('primordial_core:setSociety', function(jobInfo)
     PlayerData = GetPlayerData()
-    PlayerData.job = jobInfo
+    PlayerData.society = jobInfo
 end)
 
 function GetPlayerIdentifier()
@@ -32,15 +32,15 @@ function GetPlayerIdentifier()
 end
 
 function GetJobName()
-    return GetPlayerData()?.job?.name
+    return GetPlayerData()?.society?.name
 end
 
 function GetJobGrade()
-    return GetPlayerData()?.job?.grade
+    return GetPlayerData()?.society?.grade
 end
 
-function TriggerServerCallback(name, cb, ...)
-    ESX.TriggerServerCallback(name, cb, ...)
+function TriggerServerCallback(name, delay, ...)
+    lib.callback.await(name, delay, ...)
 end
 
 function SendTextMessage(msg, type)
@@ -100,27 +100,20 @@ end
 
 RegisterNetEvent('qb-shops:client:SpawnVehicle', function()
     local coords = Config.DeliveryLocations['vehicleWithdraw']
-    TriggerServerCallback('esx:spawnVehicle', function()
-        local veh = GetVehiclePedIsIn(PlayerPedId(), false)
-        SetVehicleNumberPlateText(veh, 'TRUK' .. tostring(math.random(1000, 9999)))
-        SetEntityHeading(veh, coords.w)
-        SetVehicleLivery(veh, 1)
-        SetVehicleColours(veh, 122, 122)
-        exports[Config.Fuel]:SetFuel(veh, 100.0)
-        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-        SetEntityAsMissionEntity(veh, true, true)
-        TriggerEvent('vehiclekeys:client:SetOwner', GetPlate(veh))
-        SetVehicleEngineOn(veh, true, true, false)
-        CurrentPlate = GetPlate(veh)
+    PL.Vehicle.SpawnClientVehicle('boxville2', vec3(coords.x, coords.y, coords.z), coords.w,function(vehicle)
+        SetVehicleNumberPlateText(vehicle, 'TRUK' .. tostring(math.random(1000, 9999)))
+        SetVehicleLivery(vehicle, 1)
+        SetVehicleColours(vehicle, 122, 122)
+        exports[Config.Fuel]:SetFuel(vehicle, 100.0)
+        TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
+        SetEntityAsMissionEntity(vehicle, true, true)
+        TriggerEvent('vehiclekeys:client:SetOwner', GetPlate(vehicle))
+        SetVehicleEngineOn(vehicle, true, true, false)
+        CurrentPlate = GetPlate(vehicle)
         GetNewLocation()
-    end, {
-        model = 'boxville2',
-        coords = vec3(coords.x, coords.y, coords.z),
-        heading = coords.w,
-        warp = true
-    })
+    end, true)
 end)
 
 function GetPlate(veh)
-    return ESX.Math.Trim(GetVehicleNumberPlateText(veh))
+    return PL.String.Trim(GetVehicleNumberPlateText(veh))
 end

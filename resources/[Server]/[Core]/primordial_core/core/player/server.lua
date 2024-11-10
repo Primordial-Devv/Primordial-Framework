@@ -372,18 +372,6 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
     userData.maxWeight = sPlayer.getMaxWeight()
     sPlayer.triggerEvent("primordial_core:playerLoaded", userData, isNew, userData.skin)
 
-    exports.ox_inventory:setPlayerInventory(sPlayer, userData.inventory)
-    if isNew then
-        local shared = json.decode(GetConvar("inventory:accounts", '["money"]'))
-
-        for i = 1, #shared do
-            local name = shared[i]
-            local account = StartingAccountMoney[name]
-            if account then
-                exports.ox_inventory:AddItem(playerId, name, account)
-            end
-        end
-    end
     sPlayer.triggerEvent("primordial_core:client:registerSuggestions", PL.RegisteredCommands)
     print(('[^2INFO^0] Player ^5"%s"^0 has connected to the server. ID: ^5%s^7'):format(sPlayer.getName(), playerId))
 end

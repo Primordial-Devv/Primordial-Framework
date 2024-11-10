@@ -1,21 +1,19 @@
-if Config.Framework ~= 'qb' then
+if Config.Framework ~= 'primordial' then
     return
 end
 
-QBCore = exports['qb-core']:GetCoreObject()
-WeaponList = QBCore.Shared.Weapons
-ItemList = QBCore.Shared.Items
+PL = exports["primordial_core"]:getSharedObject()
 
 function GetPlayerData()
-    return QBCore.Functions.GetPlayerData()
+    return PL.GetPlayerData()
 end
 
-function TriggerServerCallback(name, cb, ...)
-    QBCore.Functions.TriggerCallback(name, cb, ...)
+function TriggerServerCallback(name, delay, cb, ...)
+    lib.callback.await(name, delay, cb, ...)
 end
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    PlayerData = GetPlayerData()
+RegisterNetEvent('primordial_core:playerLoaded', function(sPlayer)
+    PlayerData = sPlayer
     LocalPlayer.state:set('inv_busy', false, true)
     Wait(1250)
     for k, data in pairs(Config.WeaponRepairPoints) do
@@ -28,10 +26,10 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     if Config.Crafting then
         CreateBlips()
     end
-    TriggerServerEvent(Config.InventoryPrefix .. ':server:OnLoadUpdateCash')
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('primordial_core:onPlayerLogout')
+AddEventHandler('primordial_core:onPlayerLogout', function()
     PlayerData = {}
     LocalPlayer.state:set('inv_busy', true, true)
     RemoveAllNearbyDrops()
@@ -41,28 +39,37 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     end
 end)
 
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-    PlayerData = val
+RegisterNetEvent('primordial_core:setSociety', function()
+    PlayerData = GetPlayerData()
     if Config.Crafting then
         CreateBlips()
     end
 end)
 
+AddEventHandler('primordial_lifeEssentials:client:onTick', function(status)
+    TriggerEvent('primordial_lifeEssentials:client:getStatus', 'hunger', function(status)
+        hunger = status.val / 10000
+    end)
+    TriggerEvent('primordial_lifeEssentials:client:getStatus', 'thirst', function(status)
+        thirst = status.val / 10000
+    end)
+end)
+
 function GetPlayerIdentifier()
-    return GetPlayerData().citizenid
+    return GetPlayerData().identifier
 end
 
 function GetPlayersInArea()
     local playerPed = PlayerPedId()
-    return QBCore.Functions.GetPlayersFromCoords(GetEntityCoords(playerPed), 3.0)
+    return PL.Player.GetNearbyPlayers(GetEntityCoords(playerPed), 3.0, false)
 end
 
 function GetJobName()
-    return GetPlayerData()?.job?.name
+    return GetPlayerData()?.society?.name
 end
 
 function GetJobGrade()
-    return GetPlayerData().job.grade
+    return GetPlayerData().society.grade
 end
 
 function GetGang()
@@ -129,7 +136,7 @@ function ProgressBar(name, label, duration, useWhileDead, canCancel, disableCont
             anim = {
                 dict = animation.animDict,
                 clip = animation.anim,
-                flag = animation?.flag
+                flag = animation?.flags
             },
             prop = prop
         }) then
@@ -151,12 +158,22 @@ function ProgressBarSync(name, label, duration, useWhileDead, canCancel, disable
     })
 end
 
+function SetPlayerStatus(values)
+    for name, value in pairs(values) do
+        if value > 0 then
+            TriggerEvent('primordial_lifeEssentials:client:add', name, value)
+        else
+            TriggerEvent('primordial_lifeEssentials:client:remove', name, -value)
+        end
+    end
+end
+
 function ToggleHud(bool)
     if bool then
-        Debug('Event to show the hud [client/custom/framework/esx.lua line 105]')
+        Debug('Event to show the hud [client/custom/framework/primordial.lua line 121]')
         DisplayRadar(false)
     else
-        Debug('Event to hide the hud [client/custom/framework/esx.lua line 108]')
+        Debug('Event to hide the hud [client/custom/framework/primordial.lua line 124]')
         DisplayRadar(true)
     end
 end
@@ -165,47 +182,36 @@ function DropMarker(coords)
     DrawMarker(20, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 120, 10, 20, 155, false, false, false, 1, false, false, false)
 end
 
-function SetPlayerStatus(values)
-    for name, value in pairs(values) do
-        -- compatibility for ESX style values
-        if value > 100 or value < -100 then
-            value = value * 0.0001
-        end
-
-        if name == 'hunger' then
-            TriggerServerEvent('consumables:server:addHunger', QBCore.Functions.GetPlayerData().metadata.hunger + value)
-        elseif name == 'thirst' then
-            TriggerServerEvent('consumables:server:addThirst', QBCore.Functions.GetPlayerData().metadata.thirst + value)
-        elseif name == 'stress' then
-            if value > 0 then
-                TriggerServerEvent('hud:server:GainStress', value)
-            else
-                value = math.abs(value)
-                TriggerServerEvent('hud:server:RelieveStress', value)
-            end
-        end
-    end
-end
-
 function IsPlayerDead()
     local check = false
-    local data = GetPlayerData()
-    if not data.metadata['isdead'] and not data.metadata['inlaststand'] and not data.metadata['ishandcuffed'] and not IsPauseMenuActive() then
+    local ped = PlayerPedId()
+    local wasabiHas = GetResourceState('wasabi_ambulance') == 'started'
+    local inLastStand = LocalPlayer.state.dead
+    if wasabiHas and inLastStand then
+        return check
+    end
+    if GetEntityHealth(ped) >= 1 then
         check = true
     end
     return check
 end
 
 function checkEntityDead(id, entity)
-    local isDead = false
-    TriggerServerCallback(Config.InventoryPrefix .. ':server:checkDead', function(result)
-        isDead = result
-    end, id)
-    repeat Wait(250) until isDead ~= nil
-    return isDead
+    local check = false
+    if GetEntityHealth(entity) <= 1 then
+        check = true
+    end
+    return check
 end
 
 function reputationCrafing(rep)
     --- @param rep Name of reputation
-    return QBCore.Functions.GetPlayerData().metadata[rep]
+    return 99999
 end
+
+RegisterNetEvent('qs-inventory:client:updateItem', function(item, data)
+    if not ItemList[item] then
+        return
+    end
+    ItemList[item] = data
+end)

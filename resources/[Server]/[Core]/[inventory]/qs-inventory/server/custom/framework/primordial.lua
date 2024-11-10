@@ -1,13 +1,13 @@
-if Config.Framework ~= 'esx' then
+if Config.Framework ~= 'primordial' then
     return
 end
 
-ESX = exports['es_extended']:getSharedObject()
+PL = exports["primordial_core"]:getSharedObject()
 
 userTable = 'users'
 Identifier = 'identifier'
 VehicleTable = 'owned_vehicles'
-es_extended = 'es_extended'
+primordial_core = 'primordial_core'
 WeaponList = WeaponList
 ItemList = ItemList
 
@@ -18,7 +18,7 @@ StarterItems = {
     ['phone'] = 1,
 }
 
-RegisterNetEvent('esx:playerLoaded', function(id, player)
+RegisterNetEvent('primordial_core:playerLoaded', function(id, player)
     local inventory = LoadInventory(id, player.identifier)
     Inventories[id] = inventory
 
@@ -31,15 +31,15 @@ RegisterNetEvent('esx:playerLoaded', function(id, player)
 end)
 
 function RegisterServerCallback(name, cb)
-    ESX.RegisterServerCallback(name, cb)
+    lib.callback.register(name, cb)
 end
 
 function GetPlayerFromId(source)
-    return ESX.GetPlayerFromId(source)
+    return PL.GetPlayerFromId(source)
 end
 
 function GetPlayerFromIdentifier(identifier)
-    return ESX.GetPlayerFromIdentifier(identifier)
+    return PL.GetPlayerFromIdentifier(identifier)
 end
 
 function PlayerIsAdmin(source)
@@ -51,7 +51,7 @@ function PlayerIsAdmin(source)
 end
 
 function FrameworkGetPlayers()
-    return ESX.GetPlayers()
+    return PL.GetPlayers()
 end
 
 function GetPlayerIdentifier(source)
@@ -62,12 +62,12 @@ end
 
 function GetJobName(source)
     local player = GetPlayerFromId(source)
-    return player?.getJob().name
+    return player?.getSociety().name
 end
 
 function GetJobGrade(source)
     local player = GetPlayerFromId(source)
-    return player.getJob().grade
+    return player.getSociety().grade
 end
 
 function GetAccountMoney(source, account)

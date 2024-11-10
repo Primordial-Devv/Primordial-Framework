@@ -21,21 +21,17 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                 TriggerEvent('qb-inventory:server:itemRemoved', source, item, amount, inventory[slot].amount)
                 TriggerClientEvent('qb-inventory:client:itemRemoved', source, item, amount, inventory[slot].amount)
 
-                if Config.Framework == 'qb' then
-                    local player = GetPlayerFromId(source)
-                    player.Functions.SetPlayerData('items', inventory)
-                end
                 if not ContainsItem(itemsToCheck, item) then
                     Debug("Item removed to player's inventory:", source, 'Item:', item, 'Amount:', amount)
                     TriggerClientEvent(Config.InventoryPrefix .. ':getInventory', source, inventory)
                     --TriggerClientEvent(Config.InventoryPrefix .. ':client:ItemBox', source, ItemList[item], 'remove')
                 end
-                if item == 'money' and Config.Framework == 'esx' then
+                if item == 'money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'money')
                     player.setAccountMoney('money', money, 'dropped')
                 end
-                if item == 'black_money' and Config.Framework == 'esx' then
+                if item == 'black_money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'black_money')
                     player.setAccountMoney('black_money', money, 'dropped')
@@ -49,10 +45,6 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                 TriggerClientEvent('qb-inventory:client:itemRemoved', source, item, amount, 0)
 
                 inventory[slot] = nil
-                if Config.Framework == 'qb' then
-                    local player = GetPlayerFromId(source)
-                    player.Functions.SetPlayerData('items', inventory)
-                end
                 if not ContainsItem(itemsToCheck, item) then
                     Debug("Item removed to player's inventory:", source, 'Item:', item, 'Amount:', amount)
                     TriggerClientEvent(Config.InventoryPrefix .. ':getInventory', source, inventory)
@@ -60,12 +52,12 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                         TriggerClientEvent(Config.InventoryPrefix .. ':client:ItemBox', source, ItemList[item], 'remove')
                     end
                 end
-                if item == 'money' and Config.Framework == 'esx' then
+                if item == 'money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'money')
                     player.setAccountMoney('money', money, 'dropped')
                 end
-                if item == 'black_money' and Config.Framework == 'esx' then
+                if item == 'black_money' and Config.Framework == 'primordial' then
                     local player = GetPlayerFromId(source)
                     local money = GetItemTotalAmount(source, 'black_money')
                     player.setAccountMoney('black_money', money, 'dropped')
@@ -90,10 +82,6 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                     TriggerEvent('qb-inventory:server:itemRemoved', source, item, amount, inventory[_slot].amount)
                     TriggerClientEvent('qb-inventory:client:itemRemoved', source, item, amount, inventory[_slot].amount)
 
-                    if Config.Framework == 'qb' then
-                        local player = GetPlayerFromId(source)
-                        player.Functions.SetPlayerData('items', inventory)
-                    end
                     if not ContainsItem(itemsToCheck, item) then
                         Debug("Item removed to player's inventory:", source, 'Item:', item, 'Amount:', amount)
                         TriggerClientEvent(Config.InventoryPrefix .. ':getInventory', source, inventory)
@@ -101,12 +89,12 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                             TriggerClientEvent(Config.InventoryPrefix .. ':client:ItemBox', source, ItemList[item], 'remove')
                         end
                     end
-                    if item == 'money' and Config.Framework == 'esx' then
+                    if item == 'money' and Config.Framework == 'primordial' then
                         local player = GetPlayerFromId(source)
                         local money = GetItemTotalAmount(source, 'money')
                         player.setAccountMoney('money', money, 'dropped')
                     end
-                    if item == 'black_money' and Config.Framework == 'esx' then
+                    if item == 'black_money' and Config.Framework == 'primordial' then
                         local player = GetPlayerFromId(source)
                         local money = GetItemTotalAmount(source, 'black_money')
                         player.setAccountMoney('black_money', money, 'dropped')
@@ -123,10 +111,7 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                     TriggerClientEvent('qb-inventory:client:itemRemoved', source, item, amount, 0)
 
                     inventory[_slot] = nil
-                    if Config.Framework == 'qb' then
-                        local player = GetPlayerFromId(source)
-                        player.Functions.SetPlayerData('items', inventory)
-                    end
+
                     if not ContainsItem(itemsToCheck, item) then
                         Debug("Item removed to player's inventory:", source, 'Item:', item, 'Amount:', amount)
                         TriggerClientEvent(Config.InventoryPrefix .. ':getInventory', source, inventory)
@@ -134,12 +119,12 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                             TriggerClientEvent(Config.InventoryPrefix .. ':client:ItemBox', source, ItemList[item], 'remove')
                         end
                     end
-                    if item == 'money' and Config.Framework == 'esx' then
+                    if item == 'money' and Config.Framework == 'primordial' then
                         local player = GetPlayerFromId(source)
                         local money = GetItemTotalAmount(source, 'money')
                         player.setAccountMoney('money', money, 'dropped')
                     end
-                    if item == 'black_money' and Config.Framework == 'esx' then
+                    if item == 'black_money' and Config.Framework == 'primordial' then
                         local player = GetPlayerFromId(source)
                         local money = GetItemTotalAmount(source, 'black_money')
                         player.setAccountMoney('black_money', money, 'dropped')
@@ -153,10 +138,7 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                     if SmartphoneMetadata then
                         exports['qs-smartphone-pro']:handleDeleteItem(source, inventory[_slot])
                     end
-                    if Config.Framework == 'qb' then
-                        local player = GetPlayerFromId(source)
-                        player.Functions.SetPlayerData('items', inventory)
-                    end
+
                     if not ContainsItem(itemsToCheck, item) then
                         Debug("Item removed to player's inventory:", source, 'Item:', item, 'Amount:', amount)
                         TriggerClientEvent(Config.InventoryPrefix .. ':getInventory', source, inventory)
@@ -164,12 +146,12 @@ function RemoveItem(source, item, amount, slot, metadata, disableAutoShowBox)
                             TriggerClientEvent(Config.InventoryPrefix .. ':client:ItemBox', source, ItemList[item], 'remove')
                         end
                     end
-                    if item == 'money' and Config.Framework == 'esx' then
+                    if item == 'money' and Config.Framework == 'primordial' then
                         local player = GetPlayerFromId(source)
                         local money = GetItemTotalAmount(source, 'money')
                         player.setAccountMoney('money', money, 'dropped')
                     end
-                    if item == 'black_money' and Config.Framework == 'esx' then
+                    if item == 'black_money' and Config.Framework == 'primordial' then
                         local player = GetPlayerFromId(source)
                         local money = GetItemTotalAmount(source, 'black_money')
                         player.setAccountMoney('black_money', money, 'dropped')

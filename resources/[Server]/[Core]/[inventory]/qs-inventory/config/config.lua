@@ -81,11 +81,12 @@ Config.Language = 'en'
     or `qbx_core` (or their equivalent files) are running at startup.
 ]]
 
-local esxHas = GetResourceState('es_extended') == 'started'
-local qbHas = GetResourceState('qb-core') == 'started'
-local qbxHas = GetResourceState('qbx_core') == 'started'
+-- local esxHas = GetResourceState('es_extended') == 'started'
+-- local primordialHas = GetResourceState('primordial_core') == 'started'
+-- local qbHas = GetResourceState('qb-core') == 'started'
+-- local qbxHas = GetResourceState('qbx_core') == 'started'
 
-Config.Framework = esxHas and 'esx' or qbHas and 'qb' or qbxHas and 'qb' or 'esx'
+Config.Framework = 'primordial'
 
 --[[
     Backward Compatibility Mode for qs-inventory Migration
@@ -112,7 +113,7 @@ Config.FetchOldInventory = false -- Set to `true` only once to start the migrati
     Note: Targeting is not available for the item DROP or THROW functionalities in this configuration.
 ]]
 
-Config.UseTarget = false -- Set to true to enable targeting with either 'qb-target' or 'ox_target', or false to disable entirely.
+Config.UseTarget = 'ox_target' -- Set to true to enable targeting with either 'qb-target' or 'ox_target', or false to disable entirely.
 
 --[[
     General Configuration Guide for the Inventory System
@@ -221,7 +222,7 @@ Config.Genders = {
 ]]
 
 Config.OpenInventoryAnim = true                         -- Enables a player animation when opening the inventory
-Config.OpenInventoryScene = false                       -- Toggles the scene animation when the inventory is opened
+Config.OpenInventoryScene = true                       -- Toggles the scene animation when the inventory is opened
 Config.Logo = 'https://i.ibb.co/CJfj6KV/Mini-copia.png' -- Path to a logo image (use a URL or a local path such as './icons/logo.png') or set false
 Config.IdleCamera = true                                -- Enables or disables idle camera functionality in the inventory screen
 

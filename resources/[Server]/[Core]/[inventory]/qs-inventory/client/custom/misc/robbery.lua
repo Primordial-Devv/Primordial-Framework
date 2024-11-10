@@ -42,13 +42,6 @@ AddEventHandler(Config.InventoryPrefix .. ':client:RobPlayer', function(TargetId
             action = 'RobPlayer',
             TargetId = TargetId,
         })
-        if Config.Framework == 'qb' then
-            Debug('The steal money button was enabled because you use qb, target id:', TargetId)
-            SendNUIMessage({
-                action = 'RobCash',
-                TargetId = TargetId,
-            })
-        end
     end
     deadPlayer = false
 end)

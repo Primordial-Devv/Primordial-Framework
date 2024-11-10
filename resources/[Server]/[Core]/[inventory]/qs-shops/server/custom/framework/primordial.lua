@@ -6,20 +6,20 @@
     of the framework that you use in its latest version and it will work perfectly.
 ]]
 
-if Config.Framework ~= 'esx' then
+if Config.Framework ~= 'primordial' then
     return
 end
 
-ESX = exports['es_extended']:getSharedObject()
+PL = exports["primordial_core"]:getSharedObject()
 Config.Table = 'users'
 Config.Identifier = 'identifier'
 
 function RegisterServerCallback(name, cb)
-    ESX.RegisterServerCallback(name, cb)
+    lib.callback.register(name, cb)
 end
 
 function GetPlayerFromId(source)
-    return ESX.GetPlayerFromId(source)
+    return PL.GetPlayerFromId(source)
 end
 
 function GetPlayerIdentifier(source)
@@ -45,12 +45,12 @@ end
 
 function GetJobName(source)
     local player = GetPlayerFromId(source)
-    return player.job.name
+    return player.society.name
 end
 
 function GetJobGrade(source)
     local player = GetPlayerFromId(source)
-    return player.job.grade
+    return player.society.grade
 end
 
 -- IMPLEMENT THIS TO YOUR GANG
@@ -60,7 +60,7 @@ end
 
 function GetLicenses(source)
     local promise = promise.new()
-    TriggerEvent('esx_license:getLicenses', source, function(licenses)
+    TriggerEvent('primordial_core:server:getLicenses', source, function(licenses)
         local data = {}
         for k, v in pairs(licenses) do
             data[v.type] = true

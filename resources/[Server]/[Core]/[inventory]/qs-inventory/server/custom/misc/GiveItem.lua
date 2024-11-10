@@ -1,5 +1,5 @@
 local function TransferMoney(itemName, source, target)
-	if Config.Framework ~= 'esx' then return end
+	if Config.Framework ~= 'primordial' then return end
 	if itemName ~= 'money' and itemName ~= 'black_money' then return end
 
 	local Player = GetPlayerFromId(source)

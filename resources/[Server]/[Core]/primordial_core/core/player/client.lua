@@ -6,7 +6,7 @@ end
 
 function PL.GetPlayerData()
     PL.PlayerData.inventory = exports['qs-inventory']:getUserInventory()
-    -- return PL.PlayerData
+    return PL.PlayerData
 end
 
 ---@param societyName string

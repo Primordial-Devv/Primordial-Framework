@@ -8,11 +8,11 @@ local _TriggerClientEvent = TriggerClientEvent
 local _DropPlayer = DropPlayer
 local _TriggerEvent = TriggerEvent
 local _assert = assert
-local Inventory
+-- local Inventory
 
-AddEventHandler("ox_inventory:loadInventory", function(module)
-    Inventory = module
-end)
+-- AddEventHandler("ox_inventory:loadInventory", function(module)
+--     Inventory = module
+-- end)
 
 ---@param playerId number
 ---@param identifier string
@@ -179,41 +179,56 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param account string
     ---@return table | nil
     function self.getAccount(account)
+        -- for i = 1, #self.accounts do
+        --     if self.accounts[i].name == account then
+        --         return self.accounts[i]
+        --     end
+        -- end
+        -- return nil
         for i = 1, #self.accounts do
             if self.accounts[i].name == account then
+                local accounts = exports['qs-inventory']:GetAccounts()
+                if accounts[account] then
+                    self.accounts[i].money = exports['qs-inventory']:GetItemTotalAmount(self.source, account)
+                end
                 return self.accounts[i]
             end
         end
-        return nil
     end
 
     ---@param minimal boolean
     ---@return table
     function self.getInventory(minimal)
-        if minimal then
-            local minimalInventory = {}
+        -- if minimal then
+        --     local minimalInventory = {}
 
-            for k, v in pairs(self.inventory) do
-                if v.count and v.count > 0 then
-                    local metadata = v.metadata
+        --     for k, v in pairs(self.inventory) do
+        --         if v.count and v.count > 0 then
+        --             local metadata = v.metadata
 
-                    if v.metadata and next(v.metadata) == nil then
-                        metadata = nil
-                    end
+        --             if v.metadata and next(v.metadata) == nil then
+        --                 metadata = nil
+        --             end
 
-                    minimalInventory[#minimalInventory + 1] = {
-                        name = v.name,
-                        count = v.count,
-                        slot = k,
-                        metadata = metadata,
-                    }
-                end
+        --             minimalInventory[#minimalInventory + 1] = {
+        --                 name = v.name,
+        --                 count = v.count,
+        --                 slot = k,
+        --                 metadata = metadata,
+        --             }
+        --         end
+        --     end
+
+        --     return minimalInventory
+        -- end
+
+        -- return self.inventory
+        local inventory = exports['qs-inventory']:GetInventory(self.source)
+            if not inventory then return {} end
+            for k, v in pairs(inventory) do
+                v.count = v.amount
             end
-
-            return minimalInventory
-        end
-
-        return self.inventory
+            return inventory
     end
 
     ---@return table
@@ -244,21 +259,35 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param reason string
     ---@return void
     function self.setAccountMoney(accountName, money, reason)
-        reason = reason or "unknown"
-        if money >= 0 then
-            local account = self.getAccount(accountName)
+        -- reason = reason or "unknown"
+        -- if money >= 0 then
+        --     local account = self.getAccount(accountName)
 
-            if account then
-                money = account.round and PL.Math.Round(money) or money
-                self.accounts[account.index].money = money
+        --     if account then
+        --         money = account.round and PL.Math.Round(money) or money
+        --         self.accounts[account.index].money = money
 
-                self.triggerEvent("primordial_core:setAccountMoney", account)
-                TriggerEvent("primordial_core:setAccountMoney", self.source, accountName, money, reason)
-                if Inventory.accounts[accountName] then
-                    Inventory.SetItem(self.source, accountName, money)
+        --         self.triggerEvent("primordial_core:setAccountMoney", account)
+        --         TriggerEvent("primordial_core:setAccountMoney", self.source, accountName, money, reason)
+        --         if Inventory.accounts[accountName] then
+        --             Inventory.SetItem(self.source, accountName, money)
+        --         end
+        --     end
+        -- end
+        reason = reason or 'unknown'
+            if money >= 0 then
+                local account = self.getAccount(accountName)
+                if account then
+                    money = account.round and PL.Math.Round(money) or money
+                    self.accounts[account.index].money = money
+                    self.triggerEvent('primordial_core:setAccountMoney', account)
+                    TriggerEvent('primordial_core:setAccountMoney', self.source, accountName, money, reason)
+                    local accounts = exports['qs-inventory']:GetAccounts()
+                    if accounts[accountName] and reason ~= 'dropped' then
+                        exports['qs-inventory']:SetInventoryItems(self.source, accountName, money)
+                    end
                 end
             end
-        end
     end
 
     ---@param accountName string
@@ -266,20 +295,34 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param reason string
     ---@return void
     function self.addAccountMoney(accountName, money, reason)
-        reason = reason or "unknown"
-        if money > 0 then
-            local account = self.getAccount(accountName)
+        -- reason = reason or "unknown"
+        -- if money > 0 then
+        --     local account = self.getAccount(accountName)
 
-            if account then
-                money = account.round and PL.Math.Round(money) or money
-                self.accounts[account.index].money = self.accounts[account.index].money + money
-                self.triggerEvent("primordial_core:setAccountMoney", account)
-                TriggerEvent("primordial_core:addAccountMoney", self.source, accountName, money, reason)
-                if Inventory.accounts[accountName] then
-                    Inventory.AddItem(self.source, accountName, money)
+        --     if account then
+        --         money = account.round and PL.Math.Round(money) or money
+        --         self.accounts[account.index].money = self.accounts[account.index].money + money
+        --         self.triggerEvent("primordial_core:setAccountMoney", account)
+        --         TriggerEvent("primordial_core:addAccountMoney", self.source, accountName, money, reason)
+        --         if Inventory.accounts[accountName] then
+        --             Inventory.AddItem(self.source, accountName, money)
+        --         end
+        --     end
+        -- end
+        reason = reason or 'unknown'
+            if money > 0 then
+                local account = self.getAccount(accountName)
+                if account then
+                    money = account.round and PL.Math.Round(money) or money
+                    self.accounts[account.index].money += money
+                    self.triggerEvent('primordial_core:setAccountMoney', account)
+                    TriggerEvent('primordial_core:addAccountMoney', self.source, accountName, money, reason)
+                    local accounts = exports['qs-inventory']:GetAccounts()
+                    if accounts[accountName] then
+                        exports['qs-inventory']:AddItem(self.source, accountName, money)
+                    end
                 end
             end
-        end
     end
 
     ---@param accountName string
@@ -287,17 +330,31 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param reason string
     ---@return void
     function self.removeAccountMoney(accountName, money, reason)
-        reason = reason or "unknown"
+        -- reason = reason or "unknown"
+        -- if money > 0 then
+        --     local account = self.getAccount(accountName)
+
+        --     if account then
+        --         money = account.round and PL.Math.Round(money) or money
+        --         self.accounts[account.index].money = self.accounts[account.index].money - money
+        --         self.triggerEvent("primordial_core:setAccountMoney", account)
+        --         TriggerEvent("primordial_core:removeAccountMoney", self.source, accountName, money, reason)
+        --         if Inventory.accounts[accountName] then
+        --             Inventory.RemoveItem(self.source, accountName, money)
+        --         end
+        --     end
+        -- end
+        reason = reason or 'unknown'
         if money > 0 then
             local account = self.getAccount(accountName)
-
             if account then
                 money = account.round and PL.Math.Round(money) or money
-                self.accounts[account.index].money = self.accounts[account.index].money - money
-                self.triggerEvent("primordial_core:setAccountMoney", account)
-                TriggerEvent("primordial_core:removeAccountMoney", self.source, accountName, money, reason)
-                if Inventory.accounts[accountName] then
-                    Inventory.RemoveItem(self.source, accountName, money)
+                self.accounts[account.index].money -= money
+                self.triggerEvent('primordial_core:setAccountMoney', account)
+                TriggerEvent('primordial_core:removeAccountMoney', self.source, accountName, money, reason)
+                local accounts = exports['qs-inventory']:GetAccounts()
+                if accounts[accountName] then
+                    exports['qs-inventory']:RemoveItem(self.source, accountName, money)
                 end
             end
         end
@@ -306,28 +363,39 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param itemName string
     ---@return table | nil
     function self.getInventoryItem(name, metadata)
-        return Inventory.GetItem(self.source, name, metadata)
+        -- return Inventory.GetItem(self.source, name, metadata)
+        local item = exports['qs-inventory']:GetItemByName(self.source, name)
+            if not item then
+                return {
+                    count = 0,
+                }
+            end
+            item.count = item.amount
+            return item
     end
 
     ---@param itemName string
     ---@param count number
     ---@return void
     function self.addInventoryItem(name, count, metadata, slot)
-        return Inventory.AddItem(self.source, name, count or 1, metadata, slot)
+        -- return Inventory.AddItem(self.source, name, count or 1, metadata, slot)
+        return exports['qs-inventory']:AddItem(self.source, name, count or 1, slot, metadata)
     end
 
     ---@param itemName string
     ---@param count number
     ---@return void
     function self.removeInventoryItem(name, count, metadata, slot)
-        return Inventory.RemoveItem(self.source, name, count or 1, metadata, slot)
+        -- return Inventory.RemoveItem(self.source, name, count or 1, metadata, slot)
+        return exports['qs-inventory']:RemoveItem(self.source, name, count or 1, slot, metadata)
     end
 
     ---@param itemName string
     ---@param count number
     ---@return void
     function self.setInventoryItem(name, count, metadata)
-        return Inventory.SetItem(self.source, name, count, metadata)
+        -- return Inventory.SetItem(self.source, name, count, metadata)
+        return exports['qs-inventory']:SetInventoryItem(self.source, name, count, metadata)
     end
 
     ---@return number
@@ -344,7 +412,8 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param count number
     ---@return boolean
     function self.canCarryItem(name, count, metadata)
-        return Inventory.CanCarryItem(self.source, name, count, metadata)
+        -- return Inventory.CanCarryItem(self.source, name, count, metadata)
+        return exports['qs-inventory']:CanCarryItem(self.source, name, count)
     end
 
     ---@param firstItem string
@@ -353,7 +422,8 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param testItemCount number
     ---@return boolean
     function self.canSwapItem(firstItem, firstItemCount, testItem, testItemCount)
-        return Inventory.CanSwapItem(self.source, firstItem, firstItemCount, testItem, testItemCount)
+        -- return Inventory.CanSwapItem(self.source, firstItem, firstItemCount, testItem, testItemCount)
+        return true
     end
 
     ---@param newWeight number
@@ -396,62 +466,63 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param weaponName string
     ---@param ammo number
     ---@return void
-    function self.addWeapon()
-        return
+    function self.addWeapon(weaponName, ammo)
+        -- return
+        return exports['qs-inventory']:GiveWeaponToPlayer(self.source, weaponName, ammo)
     end
 
     ---@param weaponName string
     ---@param weaponComponent string
     ---@return void
     function self.addWeaponComponent()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@param ammoCount number
     ---@return void
     function self.addWeaponAmmo()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@param ammoCount number
     ---@return void
     function self.updateWeaponAmmo()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@param weaponTintIndex number
     ---@return void
     function self.setWeaponTint()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@return number
     function self.getWeaponTint()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@return void
     function self.removeWeapon()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@param weaponComponent string
     ---@return void
     function self.removeWeaponComponent()
-        return
+        -- return
     end
 
     ---@param weaponName string
     ---@param ammoCount number
     ---@return void
     function self.removeWeaponAmmo()
-        return
+        -- return
     end
 
     ---@param weaponName string
@@ -470,13 +541,14 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@param item string
     ---@return table, number | false
     function self.hasItem(name, metadata)
-        return Inventory.GetItem(self.source, name, metadata)
+        -- return Inventory.GetItem(self.source, name, metadata)
+        return exports['qs-inventory']:GetItemByName(self.source, name)
     end
 
     ---@param weaponName string
     ---@return number, table | nil
     function self.getWeapon()
-        return
+        -- return
     end
 
     function self.syncInventory(weight, maxWeight, items, money)

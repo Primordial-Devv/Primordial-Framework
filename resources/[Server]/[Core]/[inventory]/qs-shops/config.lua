@@ -54,11 +54,11 @@ Config.Language = 'en'
     in the client/custom/* and server/custom/* directories.
 ]]
 
-local esxHas = GetResourceState('es_extended') == 'started'
-local qbHas = GetResourceState('qb-core') == 'started'
-local qbxHas = GetResourceState('qbx_core') == 'started'
+-- local esxHas = GetResourceState('es_extended') == 'started'
+-- local qbHas = GetResourceState('qb-core') == 'started'
+-- local qbxHas = GetResourceState('qbx_core') == 'started'
 
-Config.Framework = esxHas and 'esx' or qbHas and 'qb' or qbxHas and 'qbx' or 'esx'
+Config.Framework = 'primordial'
 Config.UseTarget = true -- true or false
 
 --[[

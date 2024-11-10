@@ -15,11 +15,6 @@ RegisterNetEvent(Config.InventoryPrefix .. ':client:OpenInventory', function(Pla
     TriggerServerCallback(Config.InventoryPrefix .. ':server:QualityDecay', function(data)
         local hungerValue = hunger
         local thirstValue = thirst
-        if Config.Framework == 'qb' then
-            local data = GetPlayerData()
-            hungerValue = data.metadata and data.metadata.hunger
-            thirstValue = data.metadata and data.metadata.thirst
-        end
 
         local PlayerSlots = Config.InventoryWeight.slots
         if not Config.BlockedSlot then
@@ -30,7 +25,7 @@ RegisterNetEvent(Config.InventoryPrefix .. ':client:OpenInventory', function(Pla
         other = data.other
 
         data = GetPlayerData()
-        if Config.Framework == 'esx' then
+        if Config.Framework == 'primordial' then
             firstName = data.firstName or ''
             lastName = data.lastName or ''
             for i = 1, #data.accounts do
@@ -42,12 +37,6 @@ RegisterNetEvent(Config.InventoryPrefix .. ':client:OpenInventory', function(Pla
                     blackmoney = data.accounts[i].money or 'Not found'
                 end
             end
-        elseif Config.Framework == 'qb' then
-            firstName = data.charinfo.firstname or ''
-            lastName = data.charinfo.lastname or ''
-            money = data.money.cash or 'Not found'
-            bank = data.money.bank or 'Not found'
-            blackmoney = data.money.crypto or 'Not found'
         end
 
         SendNUIMessage({
