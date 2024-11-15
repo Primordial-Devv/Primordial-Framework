@@ -11,7 +11,7 @@ function PL.Vehicle.SpawnServerVehicle(model, coords, heading, properties, cb)
     CreateThread(function()
         local closestId = PL.Player.GetClosestPlayer(coords, 300)
         if closestId then
-            PL.GetVehicleType(vehicleModel, closestId, function(vehicleType)
+            PL.Vehicle.GetVehicleType(vehicleModel, closestId, function(vehicleType)
                 if vehicleType then
                     local createdVehicle = CreateVehicleServerSetter(vehicleModel, vehicleType, coords, heading)
                     if not DoesEntityExist(createdVehicle) then

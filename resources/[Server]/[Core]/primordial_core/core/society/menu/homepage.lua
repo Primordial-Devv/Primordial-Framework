@@ -1,6 +1,8 @@
 ---@type Society
 local Job;
 
+--- Receive and update the society data for the current player.
+--- @param jobData table The data of the player's society.
 RegisterNetEvent('primordial_core:sendPlayerSociety', function(jobData)
     local menu <const> = lib.getOpenContextMenu();
     if (menu == 'primordial_core_society_boss_menu') then
@@ -9,6 +11,7 @@ RegisterNetEvent('primordial_core:sendPlayerSociety', function(jobData)
     Job = jobData;
 end);
 
+--- Manage society money-related actions.
 local function ManageSocietyMoney()
     local societyMoneyOptions = {}
 
@@ -29,12 +32,22 @@ local function ManageSocietyMoney()
             PL.Print.Debug('View transactions')
         end
     }
+
+    lib.registerContext({
+        id = 'primordial_core_society_money_manage',
+        title = ('Manage %s Money'):format(Job.label),
+        menu = 'primordial_core_society_boss_menu',
+        options = societyMoneyOptions
+    })
+
+    lib.showContext('primordial_core_society_money_manage')
 end
 
----@param society string The society name to open the boss menu for
+--- Open the boss menu for a specific society.
+--- @param society string The name of the society to open the boss menu for.
 function SocietyBossMenu(society)
     if (not Job or Job.name ~= society) then
-        return PL.Print.Error("Les données de Jobs ne sont pas encore chargées.")
+        return PL.Print.Error("Society data is not yet loaded.")
     end
 
     lib.registerContext({
@@ -72,4 +85,5 @@ function SocietyBossMenu(society)
     lib.showContext('primordial_core_society_boss_menu')
 end
 
+--- Register an event to open the boss menu for a society.
 RegisterNetEvent('primordial_core:client:openSocietyBossMenu', SocietyBossMenu)

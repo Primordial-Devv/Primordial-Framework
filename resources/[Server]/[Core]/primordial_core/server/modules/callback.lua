@@ -40,3 +40,44 @@ lib.callback.register("primordial:server:createSocietyDB", function(societyOwner
     PL.Print.Info("Society created successfully with owner license: " .. ownerIdentifier.license .. " and registration number: " .. registrationNumber)
     return true
 end)
+
+
+--- Handle society owner transfer.
+--- @param societyName string The name of the society.
+--- @param newOwnerId number The server ID of the new owner.
+--- @return boolean success True if the transfer was successful, false otherwise.
+lib.callback.register("primordial:server:transferSocietyOwner", function(source, societyName, newOwnerId)
+    PL.Type.AssertType(societyName, "string")
+    PL.Type.AssertType(newOwnerId, "number")
+
+    local query <const> = "SELECT * FROM society WHERE name = ?"
+    local society <const> = MySQL.prepare.await(query, { societyName })
+
+    if not society then
+        PL.Print.Error(("Society '%s' does not exist. Transfer aborted."):format(societyName))
+        return false
+    end
+
+    local currentPlayer <const> = PL.GetPlayerFromId(source)
+    if not currentPlayer or currentPlayer.identifier ~= society.owner then
+        PL.Print.Error(("Player '%s' is not the current owner of society '%s'. Transfer aborted."):format(source, societyName))
+        return false
+    end
+
+    local newOwner <const> = PL.GetPlayerFromId(newOwnerId)
+    if not newOwner then
+        PL.Print.Error(("New owner with ID '%s' does not exist. Transfer aborted."):format(newOwnerId))
+        return false
+    end
+
+    local updateQuery <const> = "UPDATE society SET owner = ? WHERE name = ?"
+    local result <const> = MySQL.prepare.await(updateQuery, { newOwner.identifier, societyName })
+
+    if not result then
+        PL.Print.Error(("Failed to update owner for society '%s'. Transfer aborted."):format(societyName))
+        return false
+    end
+
+    PL.Print.Info(("Ownership of society '%s' has been transferred to '%s'."):format(societyName, newOwner.identifier))
+    return true
+end)

@@ -1,4 +1,5 @@
----@param Job table
+--- Show the society's registration number.
+--- @param Job table The society data.
 local function ShowSocietyRegistrationNumber(Job)
     lib.registerContext({
         id = 'primordial_core_society_registration_number',
@@ -16,7 +17,8 @@ local function ShowSocietyRegistrationNumber(Job)
     lib.showContext('primordial_core_society_registration_number')
 end
 
----@param Job table
+--- Show the society's IBAN.
+--- @param Job table The society data.
 local function ShowSocietyIBAN(Job)
     lib.registerContext({
         id = 'primordial_core_society_iban',
@@ -34,9 +36,10 @@ local function ShowSocietyIBAN(Job)
     lib.showContext('primordial_core_society_iban')
 end
 
----@param Job table
+--- Handle property transfer of the society to another player.
+--- @param Job table The society data.
 local function PropertyTransfer(Job)
-    local firstConfirmTransfer = lib.alertDialog({
+    local firstConfirmTransfer <const> = lib.alertDialog({
         header = ('Transfer property of %s'):format(Job.label),
         content = 'Are you sure you want to transfer the property of the company to another player?',
         centered = true,
@@ -47,66 +50,79 @@ local function PropertyTransfer(Job)
         }
     })
 
-    if firstConfirmTransfer == 'confirm' then
-        local authorTransfer = cache.ped
-        local authorCoords = GetEntityCoords(authorTransfer)
-        local nearbyPlayers = PL.Player.GetNearbyPlayers(authorCoords, 10.0, true)
+    if firstConfirmTransfer ~= "confirm" then return end
 
-        if #nearbyPlayers == 0 then
-            PL.Print.Error('Aucun joueur à proximité pour effectuer le transfert de propriété.')
-            return
+    local authorTransfer <const> = cache.ped
+    local authorCoords <const> = GetEntityCoords(authorTransfer)
+    local nearbyPlayers <const> = PL.Player.GetNearbyPlayers(authorCoords, 10.0, true)
+
+    if #nearbyPlayers == 0 then
+        PL.Print.Error('No nearby players for property transfer.')
+        return
+    end
+
+    local nearbyOptions = {}
+    for i=1, #nearbyPlayers do
+        local playerName <const> = nearbyPlayers[i].name or "Unknown Name"
+        nearbyOptions[#nearbyOptions + 1] = { value = nearbyPlayers[i].id, label = playerName }
+    end
+
+    local transferDialog <const> = lib.inputDialog(('Transfer property of %s'):format(Job.label), {
+        {
+            type = 'select',
+            label = 'Choose a player to transfer the property to',
+            options = nearbyOptions,
+            clearable = true,
+            searchable = true
+        }
+    })
+
+    if not transferDialog or not transferDialog[1] then return end
+
+    local selectedPlayerId <const> = transferDialog[1]
+    local selectedPlayerName = "Unknown Name"
+
+    for i=1, #nearbyPlayers do
+        if nearbyPlayers[i].id == selectedPlayerId then
+            selectedPlayerName = nearbyPlayers[i].name
+            break
         end
+    end
 
-        local nearbyOptions = {}
-        for i=1, #nearbyPlayers do
-            local playerName = nearbyPlayers[i].name or 'Nom inconnu'
-            nearbyOptions[#nearbyOptions+1] = {
-                value = nearbyPlayers[i].id,
-                label = playerName
-            }
-        end
+    local secondConfirmTransfer <const> = lib.alertDialog({
+        header = ('Transfer property of %s'):format(Job.label),
+        content = ('Are you sure you want to transfer the property of the company to %s?'):format(selectedPlayerName),
+        centered = true,
+        cancel = true,
+        size = 'md',
+        labels = {
+            confirm = 'Transfer',
+        }
+    })
 
-        local transferDialog = lib.inputDialog(('Transfer property of %s'):format(Job.label), {
-            {
-                type = 'select',
-                label = 'Choose a player to transfer the property to',
-                options = nearbyOptions,
-                clearable = true,
-                searchable = true
-            }
-        })
+    if secondConfirmTransfer == "confirm" then
+        -- Trigger server callback to process the transfer.
+        local success <const> = lib.callback.await("primordial_core:server:transferSocietyOwner", 1200, Job.name, selectedPlayerId)
 
-        if not transferDialog or not transferDialog[1] then return end
-
-        local selectedPlayerId = transferDialog[1]
-        local selectedPlayerName = 'Nom inconnu'
-
-        for i=1, #nearbyPlayers do
-            if nearbyPlayers[i].id == selectedPlayerId then
-                selectedPlayerName = nearbyPlayers[i].name
-                break
-            end
-        end
-
-        local secondConfirmTransfer = lib.alertDialog({
-            header = ('Transfer property of %s'):format(Job.label),
-            content = ('Are you sure you want to transfer the property of the company to %s?'):format(selectedPlayerName),
-            centered = true,
-            cancel = true,
-            size = 'md',
-            labels = {
-                confirm = 'Transfer',
-            }
-        })
-
-        if secondConfirmTransfer == 'confirm' then
-            PL.Print.Debug('The property has been transferred successfully to ' .. selectedPlayerName)
+        if success then
+            lib.notify({
+                title = ("Property Transferred Successfully"),
+                description = ("The property of %s has been transferred to %s."):format(Job.label, selectedPlayerName),
+                type = "success"
+            })
+        else
+            lib.notify({
+                title = "Transfer Failed",
+                description = "An error occurred during the transfer process.",
+                type = "error"
+            })
         end
     end
 end
 
 
----@param Job table
+--- Manage the society actions (view registration, IBAN, or transfer ownership).
+--- @param Job table The society data.
 function ManageSociety(Job)
     local manageSocietyOptions = {}
 
