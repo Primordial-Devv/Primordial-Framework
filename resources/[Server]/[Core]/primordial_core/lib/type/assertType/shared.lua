@@ -1,39 +1,37 @@
--- Validate the type of a value against a list of expected types.
----@param value any The value to validate.
----@param expectedTypes string|table The expected type(s) of the value.
----@return true|false boolean Wether the value is of the expected type.
----@return string string The actual type of the value or an error message if not
----@usage PL.Utils.AssertType("hello", "string") -- true, "ok, value is of type 'string'"
+--- Validate the type of a value against a list of expected types.
+--- Supports all Lua types and custom validation functions.
+--- @param value any The value to validate.
+--- @param expectedTypes string|table|string[]|function The expected type(s) or custom validation function.
+--- @return boolean success True if the value matches any of the expected types or passes the custom validation.
+--- @return string message Confirmation or error message.
 function PL.Type.AssertType(value, expectedTypes)
-    local actualType = type(value)
+    local actualType <const> = type(value)
 
-    if type(expectedTypes) == "string" then
-        if actualType == expectedTypes then
-            return true, ("ok, value is of type '%s'"):format(actualType)
+    local expectedList <const> = type(expectedTypes) == "string" and { expectedTypes } or expectedTypes
+
+    if type(expectedList) == "function" then
+        local success, errorMsg = expectedList(value)
+        if success then
+            return true, ("ok, value is valid: %s"):format(errorMsg or "validated by custom function")
+        else
+            error(("Validation failed: %s"):format(errorMsg or "value did not pass custom validation"), 2)
         end
+    elseif type(expectedList) ~= "table" then
+        error("Invalid expectedTypes parameter: must be a string, table, or function.", 2)
     end
 
-    if type(expectedTypes) == "table" and #expectedTypes > 0 then
-        for _, expectedType in ipairs(expectedTypes) do
-            if actualType == expectedType then
-                return true, ("ok, value is of type '%s'"):format(actualType)
+    for _, expectedType in ipairs(expectedList) do
+        if type(expectedType) == "string" and actualType == expectedType then
+            return true, ("ok, value is of type '%s'"):format(actualType)
+        elseif type(expectedType) == "function" then
+            local success, errorMsg = expectedType(value)
+            if success then
+                return true, ("ok, value is valid: %s"):format(errorMsg or "validated by custom function")
             end
         end
     end
 
-    if type(expectedTypes) == "table" and next(expectedTypes) ~= nil and #expectedTypes == 0 then
-        if expectedTypes[actualType] then
-            return true, ("ok, value is of type '%s'"):format(actualType)
-        end
-    end
-
-    local expectedTypesStr = ""
-    if type(expectedTypes) == "string" then
-        expectedTypesStr = expectedTypes    
-    elseif type(expectedTypes) == "table" then
-        expectedTypesStr = table.concat(expectedTypes, " or ")
-    end
-
+    local expectedTypesStr <const> = table.concat(expectedList, " or ")
     error(("Type mismatch: expected '%s', got '%s'. Value: %s"):format(expectedTypesStr, actualType, tostring(value)), 2)
 end
 

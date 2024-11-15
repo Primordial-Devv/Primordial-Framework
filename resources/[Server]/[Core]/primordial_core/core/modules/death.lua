@@ -1,3 +1,4 @@
+
 local function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
     local victimCoords = GetEntityCoords(PlayerPedId())
     local killerCoords = GetEntityCoords(GetPlayerPed(killerClientId))

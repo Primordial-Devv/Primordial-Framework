@@ -42,6 +42,8 @@ local chairProps = {
     'xm_lab_chairarm_02',
 }
 
+--- Function to make the player sit on a chair
+---@param entity number The entity to sit on
 local function SitOnChair(entity)
     local ped = cache.ped
     local coords = GetEntityCoords(entity)

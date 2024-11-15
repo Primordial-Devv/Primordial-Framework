@@ -2,6 +2,10 @@ local isInVehicle, isEnteringVehicle = false, false
 local playerPed = PlayerPedId()
 local current = {}
 
+--- Get the seat of the ped in a vehicle
+---@param ped number The ped to check
+---@param vehicle number The vehicle to check
+---@return number The seat the ped is in
 local function GetPedVehicleSeat(ped, vehicle)
     for i = -1, 16 do
         if GetPedInVehicleSeat(vehicle, i) == ped then
@@ -10,7 +14,9 @@ local function GetPedVehicleSeat(ped, vehicle)
     end
     return -1
 end
-
+ --- Get the data of a vehicle
+ ---@param vehicle number The vehicle to get the data of
+ ---@return string|nil displayName, number|nil netId The display name and network ID of the vehicle
 local function GetData(vehicle)
     if not DoesEntityExist(vehicle) then
         return
@@ -24,6 +30,9 @@ local function GetData(vehicle)
     return displayName, netId
 end
 
+--- Toggle the vehicle status of the player
+---@param inVehicle boolean Whether the player is in a vehicle
+---@param seat number The seat the player is in
 local function ToggleVehicleStatus(inVehicle, seat)
     PL.SetPlayerData("vehicle", inVehicle)
     PL.SetPlayerData("seat", seat)

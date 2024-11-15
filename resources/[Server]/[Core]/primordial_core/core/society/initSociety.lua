@@ -1,13 +1,15 @@
+--- Initializes the societies and their grades from the database.
+---@return boolean success True if the societies were loaded successfully, false otherwise.
 function PL.InitSociety()
     local Jobs = {}
 
-    local query = [[
+    local query <const> = [[
         SELECT s.*, g.society_grade, g.grade_name, g.grade_label, g.grade_salary, g.isGradeWhitelisted
         FROM society s
         LEFT JOIN society_grades g ON s.name = g.society_name
     ]]
 
-    local result = MySQL.query.await(query)
+    local result <const> = MySQL.query.await(query)
 
     if not result then
         PL.Print.Error('Failed to load societies and grades from the database')
@@ -77,10 +79,12 @@ function PL.InitSociety()
     return true
 end
 
----@param source number
+--- Sends the society data to a specific player.
+---@param source number The player ID to send the society data to.
 local function sendSocietyToPlayer(source)
-    local player = PL.GetPlayerFromId(source);
+    local player <const> = PL.GetPlayerFromId(source)
     if (not player) then return end;
+
     local society <const> = player.getSociety();
     if (type(society) == "table") then
         player.triggerEvent('primordial_core:sendPlayerSociety', PL.Jobs[society.name]);
@@ -90,18 +94,28 @@ end
 AddEventHandler('primordial_core:playerLoaded', sendSocietyToPlayer);
 AddEventHandler('primordial_core:setSociety', sendSocietyToPlayer);
 
+--- Refreshes the societies and their grades from the database.
+---@return boolean success True if the societies were refreshed successfully, false otherwise.
 function PL.RefreshSociety()
     if PL.InitSociety() then
         PL.Print.Info('Societies have been refreshed successfully.')
+        return true
     else
         PL.Print.Error('Failed to refresh societies.')
+        return false
     end
 end
 
+--- Get all societies and grades.
+--- @return table societies A table containing all societies and their grades.
 function PL.GetSocieties()
     return PL.Jobs
 end
 
+--- Check if a society and grade exist.
+--- @param job string The society's name.
+--- @param grade number The grade level.
+--- @return boolean exists True if the society and grade exist, false otherwise.
 function PL.DoesSocietyExist(job, grade)
     return (PL.Jobs[job] and PL.Jobs[job].grades[tostring(grade)] ~= nil) or false
 end

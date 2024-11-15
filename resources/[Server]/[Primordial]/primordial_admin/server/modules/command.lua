@@ -431,6 +431,23 @@ if AdminCommand.FreezeCommand.EnableCommand then
     })
 end
 
+if AdminCommand.CreateSocietyCommand.EnableCommand then
+    PL.RegisterCommand(AdminCommand.CreateSocietyCommand.CommandName, {'admin'}, function(sPlayer, args)
+        if PL.DoesSocietyExist(args.name) then
+            PL.Print.Debug('The society already exists.')
+            return
+        end
+
+        sPlayer.triggerEvent('primordial_core:client:createSociety', args.name)
+    end, false, {
+        help = 'Create a society.',
+        validate = true,
+        arguments = {
+            { name = "name", help = 'The name of the society', type = "string" },
+        }
+    })
+end
+
 if AdminCommand.PlayersCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.PlayersCommand.CommandName, {'admin'}, function()
         local sPlayers = PL.GetExtendedPlayers()

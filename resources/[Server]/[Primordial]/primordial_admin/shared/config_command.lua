@@ -99,4 +99,8 @@ AdminCommand = {
       EnableCommand = true,
       CommandName = 'players',
    },
+   CreateSocietyCommand = {
+      EnableCommand = true,
+      CommandName = 'createsociety',
+   },
 }

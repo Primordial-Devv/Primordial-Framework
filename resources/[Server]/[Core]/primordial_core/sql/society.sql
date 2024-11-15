@@ -5,9 +5,12 @@ CREATE TABLE IF NOT EXISTS `society` (
     `label` VARCHAR(100) NOT NULL,
     `registration_number` VARCHAR(60) NOT NULL UNIQUE,
     `money` DECIMAL(15, 2) NOT NULL DEFAULT 0,
-    `iban`VARCHAR(100) NOT NULL UNIQUE,
+    `iban`VARCHAR(100) UNIQUE DEFAULT NULL,
+    `owner` VARCHAR(120) NOT NULL DEFAULT 'none',
     `isWhitelisted` BOOLEAN NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `society` ADD COLUMN `owner` VARCHAR(120) NOT NULL DEFAULT 'none';
 
 
 CREATE TABLE IF NOT EXISTS `society_grades` (
