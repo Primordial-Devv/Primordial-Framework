@@ -53,6 +53,7 @@ server_scripts {
 }
 
 shared_scripts {
+  '@primordial_core/init.lua',
   "shared/config.lua",
   "shared/blacklist.lua",
   "shared/peds.lua",

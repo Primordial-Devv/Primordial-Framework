@@ -13,6 +13,7 @@ AddEventHandler("primordial_core:client:setMaxWeight", function(newMaxWeight)
     PL.SetPlayerData("maxWeight", newMaxWeight)
 end)
 
+--- Do something when the player spawns
 local function onPlayerSpawn()
     PL.SetPlayerData("ped", PlayerPedId())
     PL.SetPlayerData("dead", false)

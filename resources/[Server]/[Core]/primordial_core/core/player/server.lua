@@ -15,6 +15,9 @@ local function updateHealthAndArmorInMetadata(sPlayer)
     sPlayer.setMeta("armor", GetPedArmour(ped))
 end
 
+--- Save a player to the database
+---@param sPlayer sPlayer The player object to save to the database
+---@param cb function The callback function to call when the player has been saved
 function PL.SavePlayer(sPlayer, cb)
     if not sPlayer.spawned then
         return cb and cb()
@@ -47,6 +50,8 @@ function PL.SavePlayer(sPlayer, cb)
     )
 end
 
+--- Save all players to the database
+---@param cb function The callback function to call when all players have been saved
 function PL.SavePlayers(cb)
     local sPlayers <const> = PL.Players
     if not next(sPlayers) then
@@ -88,7 +93,6 @@ function PL.SavePlayers(cb)
     )
 end
 
-PL.GetPlayers = GetPlayers
 
 local function checkTable(key, val, player, sPlayers)
     for valIndex = 1, #val do
@@ -96,7 +100,7 @@ local function checkTable(key, val, player, sPlayers)
         if not sPlayers[value] then
             sPlayers[value] = {}
         end
-
+        
         if (key == "job" and player.society.name == value) or player[key] == value then
             sPlayers[value][#sPlayers[value] + 1] = player
         end
@@ -120,10 +124,11 @@ function PL.GetExtendedPlayers(key, val)
             end
         end
     end
-
+    
     return sPlayers
 end
 
+PL.GetPlayers = GetPlayers
 function PL.GetNumPlayers(key, val)
     if not key then
         return #GetPlayers()
@@ -153,13 +158,13 @@ function PL.GetNumPlayers(key, val)
 end
 
 ---@param source number
----@return xPlayer
+---@return sPlayer
 function PL.GetPlayerFromId(source)
     return PL.Players[tonumber(source)]
 end
 
 ---@param identifier string
----@return xPlayer
+---@return sPlayer
 function PL.GetPlayerFromIdentifier(identifier)
     return PL.playersByIdentifier[identifier]
 end

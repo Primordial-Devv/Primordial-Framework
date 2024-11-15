@@ -1,16 +1,21 @@
 PL.PlayerLoaded = false
 
+--- Check if the player is loaded into the server
+---@return boolean IsPlayerLoaded Whether the player is loaded
 function PL.IsPlayerLoaded()
     return PL.PlayerLoaded
 end
 
+--- Get the player's data
+---@return table PlayerData The player's data
 function PL.GetPlayerData()
-    PL.PlayerData.inventory = exports['qs-inventory']:getUserInventory()
-    -- return PL.PlayerData
+    return PL.PlayerData
 end
 
+--- Check if the player is in a society and optionally check the grade
 ---@param societyName string
 ---@param societyGrade? string | string[]
+---@return boolean IsInSociety Whether the player is in the society
 function PL.PlayerIsInSociety(societyName, societyGrade)
     local data <const> = PL.PlayerData;
     local society <const> = data.society;
@@ -31,6 +36,9 @@ function PL.PlayerIsInSociety(societyName, societyGrade)
     return false;
 end
 
+--- Set the player's data
+---@param key string The key to set
+---@param val any The value to set
 function PL.SetPlayerData(key, val)
     local current = PL.PlayerData[key]
     PL.PlayerData[key] = val

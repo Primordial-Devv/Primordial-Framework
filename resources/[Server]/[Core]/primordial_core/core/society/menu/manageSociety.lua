@@ -66,7 +66,6 @@ local function PropertyTransfer(Job)
             }
         end
 
-        -- Dialogue pour choisir le joueur
         local transferDialog = lib.inputDialog(('Transfer property of %s'):format(Job.label), {
             {
                 type = 'select',
@@ -77,14 +76,11 @@ local function PropertyTransfer(Job)
             }
         })
 
-        -- Si aucun choix n'est fait, retour
         if not transferDialog or not transferDialog[1] then return end
 
-        -- ID du joueur sélectionné
         local selectedPlayerId = transferDialog[1]
         local selectedPlayerName = 'Nom inconnu'
 
-        -- Trouver le nom correspondant pour confirmation
         for i=1, #nearbyPlayers do
             if nearbyPlayers[i].id == selectedPlayerId then
                 selectedPlayerName = nearbyPlayers[i].name
@@ -92,7 +88,6 @@ local function PropertyTransfer(Job)
             end
         end
 
-        -- Deuxième confirmation avec le nom du joueur sélectionné
         local secondConfirmTransfer = lib.alertDialog({
             header = ('Transfer property of %s'):format(Job.label),
             content = ('Are you sure you want to transfer the property of the company to %s?'):format(selectedPlayerName),
@@ -105,7 +100,6 @@ local function PropertyTransfer(Job)
         })
 
         if secondConfirmTransfer == 'confirm' then
-            -- Code pour effectuer le transfert
             PL.Print.Debug('The property has been transferred successfully to ' .. selectedPlayerName)
         end
     end

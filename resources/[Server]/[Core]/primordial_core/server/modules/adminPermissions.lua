@@ -1,3 +1,6 @@
+--- Check if the player has admin permissions or not
+---@param source number The player's server ID
+---@return true|false boolean If the player has admin permissions or not
 function PL.AdminPermissions(source)
     if source == 0 then
         return true
