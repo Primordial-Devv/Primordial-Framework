@@ -39,7 +39,6 @@ lib.callback.register("primordial:server:createSocietyDB", function(societyOwner
 
     PL.Print.Info("Society created successfully with owner license: " .. ownerIdentifier.license .. " and registration number: " .. registrationNumber)
     return true
-<<<<<<< HEAD
 end)
 
 
@@ -82,6 +81,3 @@ lib.callback.register("primordial:server:transferSocietyOwner", function(source,
     PL.Print.Info(("Ownership of society '%s' has been transferred to '%s'."):format(societyName, newOwner.identifier))
     return true
 end)
-=======
-end)
->>>>>>> origin/main
