@@ -93,9 +93,9 @@ RegisterCommand('input', function(source, args, rawCommand)
         },
     })
     if not test then
-        return print('Canceled')
+        return PL.Print.Log(3, false, 'Canceled')
     end
-    print('Test Checkbox: ' .. json.encode(test, { indent = true }))
+    PL.Print.Log(4, true, 'Test Checkbox: ', test)
 end)
 
 lib.registerMenu({
@@ -128,27 +128,27 @@ lib.registerMenu({
         }
     },
     onSideScroll = function(selected, scrollIndex, args)
-        print('Scroll', selected, scrollIndex, args)
+        PL.Print.Log(4, false, 'Scroll', selected, scrollIndex, args)
     end,
     onSelected = function(selected, secondary, args)
         if not secondary then
-            print("Normal button")
+            PL.Print.Log(4, false, "Normal button")
         else
             if args.isCheck then
-                print("Check button")
+                PL.Print.Log(4, false, "Check button")
             end
 
             if args.isScroll then
-                print("Scroll button")
+                PL.Print.Log(4, false, "Scroll button")
             end
         end
-        print(selected, secondary, json.encode(args, {indent=true}))
+        PL.Print.Log(4, true, selected, secondary, args)
     end,
     onCheck = function(selected, checked, args)
-        print("Check: ", selected, checked, args)
+        PL.Print.Log(4, false, "Check: ", selected, checked, args)
     end,
 }, function(selected, scrollIndex, args)
-    print(selected, scrollIndex, args)
+    PL.Print.Log(4, false, selected, scrollIndex, args)
 end)
 RegisterCommand('menulib', function(source, args, rawCommand)
     lib.showMenu('test_id')

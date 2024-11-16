@@ -563,14 +563,14 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
                     if type(key) == "string" then
                         returnValues[key] = self.getMeta(index, key)
                     else
-                        print(("[^1ERROR^7] sPlayer.getMeta subIndex should be ^5string^7 or ^5table^7! that contains ^5string^7, received ^5%s^7!, skipping..."):format(type(key)))
+                        PL.Print.Log(3, false, ("sPlayer.getMeta subIndex should be ^5string^7 or ^5table^7! that contains ^5string^7, received ^5%s^7!, skipping..."):format(type(key)))
                     end
                 end
 
                 return returnValues
             end
 
-            return print(("[^1ERROR^7] sPlayer.getMeta subIndex should be ^5string^7 or ^5table^7!, received ^5%s^7!"):format(_type))
+            return PL.Print.Log(3, false, ("sPlayer.getMeta subIndex should be ^5string^7 or ^5table^7!, received ^5%s^7!"):format(_type))
         end
 
         return metaData
@@ -582,28 +582,28 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
     ---@return void
     function self.setMeta(index, value, subValue)
         if not index then
-            return print("[^1ERROR^7] sPlayer.setMeta ^5index^7 is Missing!")
+            return PL.Print.Log(3, false, "sPlayer.setMeta ^5index^7 is Missing!")
         end
 
         if type(index) ~= "string" then
-            return print("[^1ERROR^7] sPlayer.setMeta ^5index^7 should be ^5string^7!")
+            return PL.Print.Log(3, false, "sPlayer.setMeta ^5index^7 should be ^5string^7!")
         end
 
         if value == nil then
-            return print("[^1ERROR^7] sPlayer.setMeta value is missing!")
+            return PL.Print.Log(3, false, "sPlayer.setMeta value is missing!")
         end
 
         local _type = type(value)
 
         if not subValue then
             if _type ~= "number" and _type ~= "string" and _type ~= "table" then
-                return print(("[^1ERROR^7] sPlayer.setMeta ^5%s^7 should be ^5number^7 or ^5string^7 or ^5table^7!"):format(value))
+                return PL.Print.Log(3, false, ("sPlayer.setMeta ^5%s^7 should be ^5number^7 or ^5string^7 or ^5table^7!"):format(value))
             end
 
             self.metadata[index] = value
         else
             if _type ~= "string" then
-                return print(("[^1ERROR^7] sPlayer.setMeta ^5value^7 should be ^5string^7 as a subIndex!"):format(value))
+                return PL.Print.Log(3, false, ("sPlayer.setMeta ^5value^7 should be ^5string^7 as a subIndex!"):format(value))
             end
 
             if not self.metadata[index] or type(self.metadata[index]) ~= "table" then
@@ -619,16 +619,16 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
 
     function self.clearMeta(index, subValues)
         if not index then
-            return print("[^1ERROR^7] sPlayer.clearMeta ^5index^7 is Missing!")
+            return PL.Print.Log(3, false, "sPlayer.clearMeta ^5index^7 is Missing!")
         end
 
         if type(index) ~= "string" then
-            return print("[^1ERROR^7] sPlayer.clearMeta ^5index^7 should be ^5string^7!")
+            return PL.Print.Log(3, false, "sPlayer.clearMeta ^5index^7 should be ^5string^7!")
         end
 
         local metaData = self.metadata[index]
         if metaData == nil then
-            return EnableDebug and print(("[^1ERROR^7] sPlayer.clearMeta ^5%s^7 does not exist!"):format(index)) or nil
+            return EnableDebug and PL.Print.Log(3, false, ("sPlayer.clearMeta ^5%s^7 does not exist!"):format(index)) or nil
         end
 
         if not subValues then
@@ -639,7 +639,7 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
             if type(metaData) == "table" then
                 metaData[subValues] = nil
             else
-                return print(("[^1ERROR^7] sPlayer.clearMeta ^5%s^7 is not a table! Cannot clear subValue ^5%s^7."):format(index, subValues))
+                return PL.Print.Log(3, false, ("sPlayer.clearMeta ^5%s^7 is not a table! Cannot clear subValue ^5%s^7."):format(index, subValues))
             end
         elseif type(subValues) == "table" then
             -- If subValues is a table, we will clear multiple subValues within the table
@@ -649,14 +649,14 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
                     if type(metaData) == "table" then
                         metaData[subValue] = nil
                     else
-                        print(("[^1ERROR^7] sPlayer.clearMeta ^5%s^7 is not a table! Cannot clear subValue ^5%s^7."):format(index, subValue))
+                        PL.Print.Log(3, false, ("sPlayer.clearMeta ^5%s^7 is not a table! Cannot clear subValue ^5%s^7."):format(index, subValue))
                     end
                 else
-                    print(("[^1ERROR^7] sPlayer.clearMeta subValues should contain ^5string^7, received ^5%s^7, skipping..."):format(type(subValue)))
+                    PL.Print.Log(3, false, ("sPlayer.clearMeta subValues should contain ^5string^7, received ^5%s^7, skipping..."):format(type(subValue)))
                 end
             end
         else
-            return print(("[^1ERROR^7] sPlayer.clearMeta ^5subValues^7 should be ^5string^7 or ^5table^7, received ^5%s^7!"):format(type(subValues)))
+            return PL.Print.Log(3, false, ("sPlayer.clearMeta ^5subValues^7 should be ^5string^7 or ^5table^7, received ^5%s^7!"):format(type(subValues)))
         end
 
         _TriggerClientEvent("primordial_core:client:updateMetadata", self.source, self.metadata)

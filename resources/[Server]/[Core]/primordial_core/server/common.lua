@@ -76,7 +76,7 @@ MySQL.ready(function()
 
     PL.InitSociety()
 
-    print(("^5[%s - %s] ^2Framework initialized!"):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0), GetCurrentResourceName()))
+    PL.Print.Log(1, false, ("^5[%s - %s] ^2Framework initialized!"):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0), GetCurrentResourceName()))
 
     StartDBSync()
     StartPayCheck()
