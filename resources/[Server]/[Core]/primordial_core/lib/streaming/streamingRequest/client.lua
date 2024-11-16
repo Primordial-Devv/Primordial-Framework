@@ -12,8 +12,7 @@ function PL.Streaming.Utils.StreamingRequest(request, hasLoaded, assetType, asse
 
     request(asset, ...)
 
-    -- i hate fivem developers
-    lib.print.verbose(("Loading %s '%s' - remember to release it when done."):format(assetType, asset))
+    PL.Print.Warning(("Loading %s '%s' - remember to release it when done."):format(assetType, asset))
 
     return PL.Utils.WaitFor(function()
         if hasLoaded(asset) then return asset end

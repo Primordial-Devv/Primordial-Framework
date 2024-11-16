@@ -248,7 +248,7 @@ function BossAccess()
                     icon = "fa-solid fa-rectangle-list",
                     label = "Gérer l'entreprise",
                     onSelect = function()
-                        print(json.encode(PL.PlayerData.society, { indent = true }));
+                        PL.Print.Log(4, true, PL.PlayerData.society);
                         if (PL.PlayerIsInSociety('ambulance', { 'boss', 'recruit' })) then
                             TriggerEvent('primordial_core:client:openSocietyBossMenu', 'ambulance')
                         else
