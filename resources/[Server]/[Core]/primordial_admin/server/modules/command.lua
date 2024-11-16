@@ -431,6 +431,17 @@ if AdminCommand.FreezeCommand.EnableCommand then
     })
 end
 
+if AdminCommand.PlayersCommand.EnableCommand then
+    PL.RegisterCommand(AdminCommand.PlayersCommand.CommandName, {'admin'}, function()
+        local sPlayers = PL.GetExtendedPlayers()
+        PL.Print.Log(1, false, ("^5%s^2 online player(s)^0"):format(#sPlayers))
+        for i = 1, #sPlayers do
+            local sPlayer = sPlayers[i]
+            PL.Print.Log(1, false, ("^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), sPlayer.identifier))
+        end
+    end, true)
+end
+
 if AdminCommand.CreateSocietyCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.CreateSocietyCommand.CommandName, {'admin'}, function(sPlayer, args)
         if PL.DoesSocietyExist(args.name) then
@@ -446,17 +457,6 @@ if AdminCommand.CreateSocietyCommand.EnableCommand then
             { name = "name", help = 'The name of the society', type = "string" },
         }
     })
-end
-
-if AdminCommand.PlayersCommand.EnableCommand then
-    PL.RegisterCommand(AdminCommand.PlayersCommand.CommandName, {'admin'}, function()
-        local sPlayers = PL.GetExtendedPlayers()
-        PL.Print.Log(1, false, ("^5%s^2 online player(s)^0"):format(#sPlayers))
-        for i = 1, #sPlayers do
-            local sPlayer = sPlayers[i]
-            PL.Print.Log(1, false, ("^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), sPlayer.identifier))
-        end
-    end, true)
 end
 
 AddEventHandler('primordial_core:server:societyLoaded', function(jobs)
