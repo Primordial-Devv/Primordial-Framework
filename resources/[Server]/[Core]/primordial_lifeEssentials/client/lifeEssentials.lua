@@ -123,7 +123,7 @@ end)
 CreateThread(function()
 	while true do
 		Wait(30000)
-		PL.Print.Info(('Player status : %s'):format(json.encode(GetStatusData(true), {indent = true})))
+		PL.Print.Log(1, true, ('Player status : %s'):format(GetStatusData(true)))
 		if PL.PlayerLoaded then TriggerServerEvent('primordial_lifeEssentials:server:update', GetStatusData(true)) end
 	end
 end)

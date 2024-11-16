@@ -5,8 +5,8 @@ end)
 
 AddEventHandler('onResourceStop', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
-    local getOpenMenu = lib.getOpenContextMenu()
-    lib.hideContext(getOpenMenu)
+    lib.getOpenContextMenu()
+    lib.hideContext()
 end)
 
 function CreateBlip(coords, sprite, color, text, scale, flash)

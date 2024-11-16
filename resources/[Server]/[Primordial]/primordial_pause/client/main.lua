@@ -20,7 +20,7 @@ RegisterCommand('~=++pausemenu', function()
         pauseMenuActive = true
     end
 
-    PL.Print.Info('Pause Menu Opened')
+    PL.Print.Log(1, false, 'Pause Menu Opened')
 end)
 
 RegisterKeyMapping('~=++pausemenu', 'Open Pause menu', 'keyboard', 'F5')

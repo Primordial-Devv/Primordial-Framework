@@ -47,7 +47,7 @@ lib.callback.register("illenium-appearance:server:generateOutfitCode", function(
         local code = GenerateUniqueCode()
         local id = Database.PlayerOutfitCodes.Add(outfitID, code)
         if not id then
-            PL.Print.Error("Something went wrong while generating outfit code")
+            PL.Print.Log(3, false, "Something went wrong while generating outfit code")
             return
         end
         return code
@@ -73,7 +73,7 @@ lib.callback.register("illenium-appearance:server:importOutfitCode", function(so
     local id = Database.PlayerOutfits.Add(citizenID, outfitName, playerOutfit.model, playerOutfit.components, playerOutfit.props)
 
     if not id then
-        PL.Print.Error("Something went wrong while importing the outfit")
+        PL.Print.Log(3, false, "Something went wrong while importing the outfit")
         return
     end
 

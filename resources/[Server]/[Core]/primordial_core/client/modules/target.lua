@@ -68,12 +68,12 @@ exports.ox_target:addModel(chairProps, {
         icon = 'fa-solid fa-chair',
         distance = 4.0,
         onSelect = function(data)
-            PL.Print.Debug('Sit chair')
+            PL.Print.Log(4, false, 'Sit chair')
             local chair = data.entity
             if DoesEntityExist(chair) then
                 SitOnChair(chair)
             else
-                PL.Print.Debug("Chair not found")
+                PL.Print.Log(4, false, "Chair not found")
             end
         end
     }
@@ -82,6 +82,6 @@ exports.ox_target:addModel(chairProps, {
 RegisterCommand('props', function()
     PL.Object.SpawnClientObject('ch_prop_casino_chair_01b', GetEntityCoords(cache.ped), function(object)
         FreezeEntityPosition(object, true)
-        PL.Print.Debug(object, 'Object spawned')
+        PL.Print.Log(4, false, object, 'Object spawned')
     end, true)
 end, false)

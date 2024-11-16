@@ -13,12 +13,12 @@ function PL.String.GetRandomString(length, complexity)
     PL.Type.AssertType(complexity, {"number"})
 
     if length < 1 then
-        PL.Print.Error("Invalid length parameter. Must be >= 1.")
+        PL.Print.Log(3, false, "Invalid length parameter. Must be >= 1.")
         return nil
     end
 
     if complexity < 1 or complexity > 5 then
-        PL.Print.Error("Invalid complexity parameter. Must be between 1 and 5.")
+        PL.Print.Log(3, false, "Invalid complexity parameter. Must be between 1 and 5.")
         return nil
     end
 

@@ -46,7 +46,7 @@ end
 RegisterNetEvent("esx_identity:showRegisterIdentity", function()
     TriggerEvent("esx_skin:resetFirstSpawn")
     while not (ready and loadingScreenFinished) do
-        PL.Print.Info("Waiting for esx_identity NUI...")
+        PL.Print.Log(1, false, "Waiting for esx_identity NUI...")
         Wait(100)
     end
     if not PL.PlayerData.dead then
@@ -69,7 +69,7 @@ RegisterNUICallback("register", function(data, cb)
 
         TriggerEvent("esx_skin:playerRegistered")
     else
-        return PL.Print.Error("Failed to register identity")
+        return PL.Print.Log(3, false, "Failed to register identity")
     end
     cb(1)
 end)

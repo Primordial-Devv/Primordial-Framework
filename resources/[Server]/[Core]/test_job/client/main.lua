@@ -765,7 +765,7 @@ function AscenseurAcces()
                             local input = lib.inputDialog("Choisir un Etage", {
                                 { type = 'number', label = 'Etage', description = "Choisissez l'etage ou vous souhaitez aller", min = -1, max = 3 },
                             })
-                            PL.Print.Debug(json.encode(input))
+                            PL.Print.Log(4, true, input)
                             if input[1] == -1 or 0 or 1 or 2 or 3 then
                                 local player = PlayerPedId()
                                 DoScreenFadeOut(2500)

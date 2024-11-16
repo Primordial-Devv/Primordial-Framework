@@ -372,7 +372,7 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
         local lastSociety = self.society
 
         if not PL.DoesSocietyExist(newSociety, societyGrade) then
-            return PL.Print.Warning(("Ignoring invalid ^1.setSociety()^5 usage for ID: ^1%s^5, Society: ^1%s^5"):format(self.source, newSociety))
+            return PL.Print.Log(2, false, ("Ignoring invalid ^1.setSociety()^5 usage for ID: ^1%s^5, Society: ^1%s^5"):format(self.source, newSociety))
         end
 
         local societyObject, societyGradeObject = PL.Jobs[newSociety], PL.Jobs[newSociety].grades[societyGrade]
@@ -539,12 +539,12 @@ function CreateStudioPlayer(playerId, identifier, group, accounts, inventory, we
         end
 
         if type(index) ~= "string" then
-            return PL.Print.Error("sPlayer.getMeta ^1index^5 should be ^1string^5!")
+            return PL.Print.Log(3, false, "sPlayer.getMeta ^1index^5 should be ^1string^5!")
         end
 
         local metaData = self.metadata[index]
         if metaData == nil then
-            return EnableDebug and PL.Print.Error('sPlayer.getMeta ^1%s^5 not exist!'):format(index) or nil
+            return EnableDebug and PL.Print.Log(3, false, 'sPlayer.getMeta ^1%s^5 not exist!'):format(index) or nil
         end
 
         if subIndex and type(metaData) == "table" then
