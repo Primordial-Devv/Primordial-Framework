@@ -64,7 +64,6 @@ function AdminInterface(permissions)
         description = Translations.developer_options_description,
         icon = 'fa-solid fa-laptop-code',
         onSelect = function()
-            print('^1[^5Primordial Admin^1] ^3Opening Developer Options')
             DeveloperOptionsInterface(permissions)
         end
     }

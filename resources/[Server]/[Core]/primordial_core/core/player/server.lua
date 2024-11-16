@@ -41,7 +41,7 @@ function PL.SavePlayer(sPlayer, cb)
         parameters,
         function(affectedRows)
             if affectedRows == 1 then
-                print(('[^2INFO^7] Saved player ^5"%s^7"'):format(sPlayer.name))
+                PL.Print.Log(1, false, ('Saved player ^5"%s^7"'):format(sPlayer.name))
             end
             if cb then
                 cb()
@@ -88,7 +88,7 @@ function PL.SavePlayers(cb)
                 return cb()
             end
 
-            print(("[^2INFO^7] Saved ^5%s^7 %s over ^5%s^7 ms"):format(#parameters, #parameters > 1 and "players" or "player", PL.Math.Round((os.time() - startTime) / 1000000, 2)))
+            PL.Print.Log(1, false, ("Saved ^5%s^7 %s over ^5%s^7 ms"):format(#parameters, #parameters > 1 and "players" or "player", PL.Math.Round((os.time() - startTime) / 1000000, 2)))
         end
     )
 end
@@ -223,7 +223,7 @@ function CreatePrimordialPlayer(identifier, playerId, data)
 
     local defaultGroup = "user"
     if PL.AdminPermissions(playerId) then
-        print(("[^2INFO^0] Player ^5%s^0 Has been granted admin permissions via ^5Ace Perms^7."):format(playerId))
+        PL.Print.Log(1, false, ("Player ^5%s^0 Has been granted admin permissions via ^5Ace Perms^7."):format(playerId))
         defaultGroup = "admin"
     end
 
@@ -301,7 +301,7 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
     local job, grade = result.society_name, tostring(result.society_grade)
 
     if not PL.DoesSocietyExist(job, grade) then
-        print(("[^3WARNING^7] Ignoring invalid job for ^5%s^7 [job: ^5%s^7, grade: ^5%s^7]"):format(identifier, job, grade))
+        PL.Print.Log(2, false, ("Ignoring invalid job for ^5%s^7 [job: ^5%s^7, grade: ^5%s^7]"):format(identifier, job, grade))
         job, grade = "unemployed", "0"
     end
 
@@ -327,7 +327,7 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
     if result.group then
         if result.group == "superadmin" then
             userData.group = "admin"
-            print("[^3WARNING^7] ^5Superadmin^7 detected, setting group to ^5admin^7")
+            PL.Print.Log(2, false, "^5Superadmin^7 detected, setting group to ^5admin^7")
         else
             userData.group = result.group
         end
@@ -390,5 +390,5 @@ function LoadPrimordialPlayer(identifier, playerId, isNew)
         end
     end
     sPlayer.triggerEvent("primordial_core:client:registerSuggestions", PL.RegisteredCommands)
-    print(('[^2INFO^0] Player ^5"%s"^0 has connected to the server. ID: ^5%s^7'):format(sPlayer.getName(), playerId))
+    PL.Print.Log(1, false, ('Player ^5"%s"^0 has connected to the server. ID: ^5%s^7'):format(sPlayer.getName(), playerId))
 end

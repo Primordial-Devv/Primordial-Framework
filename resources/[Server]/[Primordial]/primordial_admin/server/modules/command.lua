@@ -451,10 +451,10 @@ end
 if AdminCommand.PlayersCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.PlayersCommand.CommandName, {'admin'}, function()
         local sPlayers = PL.GetExtendedPlayers()
-        print(("^5%s^2 online player(s)^0"):format(#sPlayers))
+        PL.Print.Log(1, false, ("^5%s^2 online player(s)^0"):format(#sPlayers))
         for i = 1, #sPlayers do
             local sPlayer = sPlayers[i]
-            print(("^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), sPlayer.identifier))
+            PL.Print.Log(1, false, ("^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), sPlayer.identifier))
         end
     end, true)
 end
@@ -487,9 +487,9 @@ AddEventHandler('primordial_core:server:societyLoaded', function(jobs)
             }
 
             local formattedSocietyInfo = json.encode(societyInfo, { indent = true })
-            print(("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
+            PL.Print.Log(1, false, ("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
         else
-            print(('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
+            PL.Print.Log(32, false, ('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
         end
     end, false)
 end)
