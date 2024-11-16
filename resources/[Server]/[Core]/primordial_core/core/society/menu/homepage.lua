@@ -20,7 +20,7 @@ local function ManageSocietyMoney()
         description = 'View the balance of the company',
         icon = 'https://zupimages.net/up/24/44/s4vl.png',
         onSelect = function()
-            PL.Print.Debug('View balance')
+            PL.Print.Log(4, false, 'View balance')
         end
     }
 
@@ -29,7 +29,7 @@ local function ManageSocietyMoney()
         description = 'View the transactions of the company',
         icon = 'https://zupimages.net/up/24/44/s4vl.png',
         onSelect = function()
-            PL.Print.Debug('View transactions')
+            PL.Print.Log(4, false, 'View transactions')
         end
     }
 
@@ -47,7 +47,7 @@ end
 --- @param society string The name of the society to open the boss menu for.
 function SocietyBossMenu(society)
     if (not Job or Job.name ~= society) then
-        return PL.Print.Error("Society data is not yet loaded.")
+        return PL.Print.Log(3, false, "Society data is not yet loaded.")
     end
 
     lib.registerContext({
@@ -67,7 +67,7 @@ function SocietyBossMenu(society)
                 description = 'Manages everything related to the company\'s money',
                 icon = 'https://zupimages.net/up/24/44/14v9.png',
                 onSelect = function()
-                    PL.Print.Debug('Money Management')
+                    PL.Print.Log(4, false, 'Money Management')
                     ManageSocietyMoney()
                 end
             },
@@ -76,7 +76,31 @@ function SocietyBossMenu(society)
                 description = 'Manages everything related to the company\'s grades',
                 icon = 'https://zupimages.net/up/24/44/c1lm.png',
                 onSelect = function()
-                    PL.Print.Debug('Grades Management')
+                    PL.Print.Log(4, false, 'Grades Management')
+                end
+            },
+            {
+                title = 'Employees Management',
+                description = 'Manages everything related to the company\'s employees',
+                icon = 'https://zupimages.net/up/24/46/5osv.png',
+                onSelect = function()
+                    PL.Print.Log(4, false, 'Employees Management')
+                end
+            },
+            {
+                title = 'Inventory Management',
+                description = 'Manages everything related to the company\'s inventory',
+                icon = 'https://zupimages.net/up/24/46/z1r7.png',
+                onSelect = function()
+                    PL.Print.Log(4, false, 'Inventory Management')
+                end
+            },
+            {
+                title = 'Contract Management',
+                description = 'Manages everything related to the company\'s contracts',
+                icon = 'https://zupimages.net/up/24/46/vcp8.png',
+                onSelect = function()
+                    PL.Print.Log(4, false, 'Contract Management')
                 end
             }
         }
