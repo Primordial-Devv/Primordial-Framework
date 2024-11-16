@@ -20,7 +20,7 @@ CreateThread(function()
                     type = 'info',
                 })
             else
-                PL.Print.Error(('^3%s ^5 has no correct type defined.'):format(k))
+                PL.Print.Log(3, false, ('^3%s ^5 has no correct type defined.'):format(k))
             end
         end)
     end

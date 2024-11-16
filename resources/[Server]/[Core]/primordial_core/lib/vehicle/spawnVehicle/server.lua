@@ -15,18 +15,18 @@ function PL.Vehicle.SpawnServerVehicle(model, coords, heading, properties, cb)
                 if vehicleType then
                     local createdVehicle = CreateVehicleServerSetter(vehicleModel, vehicleType, coords, heading)
                     if not DoesEntityExist(createdVehicle) then
-                        PL.Print.Error("Unfortunately, this vehicle has not spawned")
+                        PL.Print.Log(3, false, "Unfortunately, this vehicle has not spawned")
                     end
 
                     local networkId = NetworkGetNetworkIdFromEntity(createdVehicle)
                     TriggerClientEvent("primordial_core:client:SetVehicleProperties", -1, networkId, vehicleProperties)
                     cb(networkId)
                 else
-                    PL.Print.Error(("Tried to spawn invalid vehicle - %s!"):format(model))
+                    PL.Print.Log(3, false, ("Tried to spawn invalid vehicle - %s!"):format(model))
                 end
             end)
         else
-            PL.Print.Error("No players found nearby to spawn the vehicle")
+            PL.Print.Log(3, false, "No players found nearby to spawn the vehicle")
         end
     end)
 end

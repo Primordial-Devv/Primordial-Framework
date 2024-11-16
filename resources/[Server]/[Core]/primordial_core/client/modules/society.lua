@@ -226,7 +226,7 @@ function OpenEmployeeList(society, options)
 								if success then
 									OpenEmployeeList(society, options)
 								else
-									PL.Print.Error("Failed to fire employee.")
+									PL.Print.Log(3, false, "Failed to fire employee.")
 								end
                             end
                         }
@@ -271,7 +271,7 @@ function OpenRecruitMenu(society, options)
 					if success then
 						OpenRecruitMenu(society, options)
 					else
-						PL.Print.Error("Failed to hire employee.")
+						PL.Print.Log(3, false, "Failed to hire employee.")
 					end
 				end
 			})
@@ -307,7 +307,7 @@ function OpenPromoteMenu(society, employee, options)
 				if success then
 					OpenEmployeeList(society, options)
 				else
-					PL.Print.Error("Failed to promote employee.")
+					PL.Print.Log(3, false, "Failed to promote employee.")
 				end
 			end
 		})
@@ -367,7 +367,7 @@ function OpenManageSalaryMenu(society, options)
 						if success then
 							OpenManageSalaryMenu(society, options)
 						else
-							PL.Print.Error("Failed to change job salary.")
+							PL.Print.Log(3, false, "Failed to change job salary.")
 						end
 					end
 				else
@@ -422,7 +422,7 @@ function OpenManageGradesMenu(society, options)
 					if success then
 						OpenManageGradesMenu(society, options)
 					else
-						PL.Print.Error("Failed to change job label.")
+						PL.Print.Log(3, false, "Failed to change job label.")
 					end
 				else
 					lib.notify({

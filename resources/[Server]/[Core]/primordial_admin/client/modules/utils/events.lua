@@ -1,6 +1,6 @@
 RegisterNetEvent("primordial_admin:client:freezePlayer")
 AddEventHandler("primordial_core:client:freezePlayer", function(input)
-    PL.Print.Debug(('Freeze player: %s'):format(input))
+    PL.Print.Log(4, false, ('Freeze player: %s'):format(input))
     local player = PlayerId()
     if input == "freeze" then
         SetEntityCollision(PL.PlayerData.ped, false)

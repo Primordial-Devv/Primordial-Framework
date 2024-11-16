@@ -95,7 +95,7 @@ function GetFuel(vehicle)
     if DoesEntityExist(vehicle) then
         return GetVehicleFuelLevel(vehicle)
     else
-        return PL.Print.Error('Vehicle does not exist')
+        return PL.Print.Log(3, false, 'Vehicle does not exist')
     end
 end
 
@@ -109,18 +109,18 @@ function SetFuel(vehicle, fuelLevel)
         end
         SetVehicleFuelLevel(vehicle, fuelLevel)
     else
-        PL.Print.Error('Vehicle does not exist')
+        PL.Print.Log(3,false, 'Vehicle does not exist')
     end
 end
 
 function StopFuel()
     fuelConsumptionEnabled = false
-    PL.Print.Info('Fuel consumption disabled.')
+    PL.Print.Log(1, false, 'Fuel consumption disabled.')
 end
 
 function StartFuel()
     fuelConsumptionEnabled = true
-    PL.Print.Info('Fuel consumption enabled.')
+    PL.Print.Log(1, false, 'Fuel consumption enabled.')
 end
 
 function GetFuelConsumptionStatus()

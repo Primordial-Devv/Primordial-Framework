@@ -40,7 +40,7 @@ function PL.Math.ToScalars(input, min, max, round)
         local num = parseNumber(scalar, min, max, shouldRound)
 
         if not num then
-            PL.Print.Error(("Failed to parse scalar at position %d in input: %s"):format(index + 1, scalar))
+            PL.Print.Log(3, false, ("Failed to parse scalar at position %d in input: %s"):format(index + 1, scalar))
             return nil -- Return nil if any scalar is invalid.
         end
 
@@ -49,7 +49,7 @@ function PL.Math.ToScalars(input, min, max, round)
     end
 
     if index == 0 then
-        PL.Print.Error("No valid scalars found in the input string.")
+        PL.Print.Log(3,false, "No valid scalars found in the input string.")
         return nil -- Return nil if no scalars are found.
     end
 
