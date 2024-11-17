@@ -77,7 +77,7 @@ local function TeleportToCoordsDialog()
     local teleport_coordinates = lib.inputDialog(Translations.coords_field_title, coordsDialogOptions)
 
     if not teleport_coordinates then
-        return PL.Print.Log(3, false, 'Coordinates Selection Cancelled')
+        return PL.Print.Log(3, 'Coordinates Selection Cancelled')
     end
 
     TeleportToCoords(player, tonumber(teleport_coordinates[1]), tonumber(teleport_coordinates[2]), tonumber(teleport_coordinates[3]))

@@ -387,7 +387,7 @@ local function ReportDialog()
 
     local reportSended = lib.callback.await('primordial_admin:server:sendReportData', 350, reportData)
     if not reportSended then
-        PL.Print.Log(3, false, Translations.report_dialog_error)
+        PL.Print.Log(3, Translations.report_dialog_error)
     end
 end
 

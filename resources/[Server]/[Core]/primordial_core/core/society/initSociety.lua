@@ -12,7 +12,7 @@ function PL.InitSociety()
     local result <const> = MySQL.query.await(query)
 
     if not result then
-        PL.Print.Log(3, false, 'Failed to load societies and grades from the database')
+        PL.Print.Log(3, 'Failed to load societies and grades from the database')
         return false
     end
 
@@ -33,7 +33,7 @@ function PL.InitSociety()
         if row.society_grade then
             local salary = tonumber(row.grade_salary)
             if not salary or salary < 0 then
-                PL.Print.Log(2, false, ('Ignoring society grade for "%s" due to invalid salary value : %s'):format(row.name, row.grade_salary))
+                PL.Print.Log(2, ('Ignoring society grade for "%s" due to invalid salary value : %s'):format(row.name, row.grade_salary))
             else
                 Jobs[row.name].grades[tostring(row.society_grade)] = {
                     grade = row.society_grade,
@@ -49,7 +49,7 @@ function PL.InitSociety()
     for name, society in pairs(Jobs) do
         if PL.Table.SizeOf(society.grades) == 0 then
             Jobs[name] = nil
-            PL.Print.Log(2, false, ('Ignoring society "%s" due to no society grades found'):format(society.name))
+            PL.Print.Log(2, ('Ignoring society "%s" due to no society grades found'):format(society.name))
         end
     end
 
@@ -75,7 +75,7 @@ function PL.InitSociety()
     end
 
     TriggerEvent('primordial_core:server:societyLoaded', PL.Jobs)
-    PL.Print.Log(1, false, 'Societies have been loaded successfully.')
+    PL.Print.Log(1, 'Societies have been loaded successfully.')
     return true
 end
 
@@ -98,10 +98,10 @@ AddEventHandler('primordial_core:setSociety', sendSocietyToPlayer);
 ---@return boolean success True if the societies were refreshed successfully, false otherwise.
 function PL.RefreshSociety()
     if PL.InitSociety() then
-        PL.Print.Log(1, false, 'Societies have been refreshed successfully.')
+        PL.Print.Log(1, 'Societies have been refreshed successfully.')
         return true
     else
-        PL.Print.Log(3, false, 'Failed to refresh societies.')
+        PL.Print.Log(3, 'Failed to refresh societies.')
         return false
     end
 end

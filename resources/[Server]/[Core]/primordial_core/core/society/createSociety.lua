@@ -6,7 +6,7 @@ local function CreateSocietyMenu(societyName)
     local nearbyPlayers <const> = PL.Player.GetNearbyPlayers(authorCoords, 10.0, true)
 
     if #nearbyPlayers == 0 then
-        PL.Print.Log(3, false, 'No nearby players for ownership transfer.')
+        PL.Print.Log(3, 'No nearby players for ownership transfer.')
         return
     end
 
@@ -59,7 +59,7 @@ local function CreateSocietyMenu(societyName)
     local selectedPlayerId <const> = createSocietyInfo[3]
     local isWhitelisted <const> = createSocietyInfo[4]
 
-    PL.Print.Log(4, false, 'isWhitelisted: ' .. isWhitelisted)
+    PL.Print.Log(4, 'isWhitelisted: ' .. isWhitelisted)
     local selectedPlayerName = "Unknown Name"
 
     for _, player in ipairs(nearbyPlayers) do
@@ -72,11 +72,11 @@ local function CreateSocietyMenu(societyName)
     local success <const> = lib.callback.await('primordial:server:createSocietyDB', 500, selectedSocietyName, selectedSocietyLabel, isWhitelisted, selectedPlayerId)
 
     if not success then
-        PL.Print.Log(3, false, 'An error occurred while creating the society.')
+        PL.Print.Log(3, 'An error occurred while creating the society.')
         return
     end
 
-    PL.Print.Log(1, false, 'The society has been created successfully and the owner is ' .. selectedPlayerName)
+    PL.Print.Log(1, 'The society has been created successfully and the owner is ' .. selectedPlayerName)
 end
 
 --- Register an event to trigger the society creation menu.

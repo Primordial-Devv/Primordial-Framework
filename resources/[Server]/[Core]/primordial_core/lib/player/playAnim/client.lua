@@ -76,12 +76,12 @@ function PL.Player.PlayAnimation(pedId, animDictionary, animName, blendInSpeed, 
     PL.Type.AssertType(shouldOverrideCloneUpdate, { "boolean", "nil" })
 
     if not DoesEntityExist(pedId) or not IsEntityAPed(pedId) then
-        PL.Print.Log(3, false, ("Invalid ped entity: %s."):format(tostring(pedId)))
+        PL.Print.Log(3, ("Invalid ped entity: %s."):format(tostring(pedId)))
         return false
     end
 
     if not lib.requestAnimDict(animDictionary) then
-        PL.Print.Log(3, false, ("Failed to load animation dictionary: %s."):format(animDictionary))
+        PL.Print.Log(3, ("Failed to load animation dictionary: %s."):format(animDictionary))
         return false
     end
 
@@ -97,13 +97,13 @@ function PL.Player.PlayAnimation(pedId, animDictionary, animName, blendInSpeed, 
     TaskPlayAnim(pedId, animDictionary, animName, blendIn, blendOut, duration, animFlag, phase, phaseControl, controlFlag, overrideClone)
 
     if not IsEntityPlayingAnim(pedId, animDictionary, animName, 3) then
-        PL.Print.Log(3, false, ("Failed to play animation '%s' from dictionary '%s' on ped: %s."):format(animName, animDictionary, tostring(pedId)))
+        PL.Print.Log(3, ("Failed to play animation '%s' from dictionary '%s' on ped: %s."):format(animName, animDictionary, tostring(pedId)))
         RemoveAnimDict(animDictionary)
         return false
     end
 
     RemoveAnimDict(animDictionary)
-    PL.Print.Log(1, false, ("Animation '%s' from dictionary '%s' started successfully on ped: %s."):format(animName, animDictionary, tostring(pedId)))
+    PL.Print.Log(1, ("Animation '%s' from dictionary '%s' started successfully on ped: %s."):format(animName, animDictionary, tostring(pedId)))
     return true
 end
 

@@ -97,7 +97,7 @@ end
 if AdminCommand.SetJobCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.SetJobCommand.CommandName, {'admin'}, function(sPlayer, args)
         if not PL.DoesSocietyExist(args.job, args.grade) then
-            return PL.Print.Log(3, false, Translations.command_setjob_invalid:format(args.job, args.grade))
+            return PL.Print.Log(3, Translations.command_setjob_invalid:format(args.job, args.grade))
         end
 
         args.playerId.setSociety(args.job, args.grade)
@@ -123,7 +123,7 @@ end
 if AdminCommand.VehicleCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.VehicleCommand.CommandName, {'admin'}, function(sPlayer, args, _)
         if not sPlayer then
-            return PL.Print.Log(3, false, "The Player object is nil")
+            return PL.Print.Log(3, "The Player object is nil")
         end
 
         local playerPed = GetPlayerPed(sPlayer.source)
@@ -133,7 +133,7 @@ if AdminCommand.VehicleCommand.EnableCommand then
 
         if not args.vehicle then
             args.vehicle = "adder"
-            PL.Print.Log(3, false, 'Car value undefined, set to Adder')
+            PL.Print.Log(3, 'Car value undefined, set to Adder')
         end
 
         if playerVehicle then
@@ -158,7 +158,7 @@ if AdminCommand.VehicleCommand.EnableCommand then
                     end
                 end
                 if GetVehiclePedIsIn(playerPed, false) ~= vehicle then
-                    PL.Print.Log(3, false, "The player could not be seated in the vehicle")
+                    PL.Print.Log(3, "The player could not be seated in the vehicle")
                 end
             end
         end)
@@ -207,7 +207,7 @@ if AdminCommand.RepairVehicleCommand.EnableCommand then
         local ped = GetPlayerPed(xTarget.source)
         local pedVehicle = GetVehiclePedIsIn(ped, false)
         if not pedVehicle or GetPedInVehicleSeat(pedVehicle, -1) ~= ped then
-            PL.Print.Log(3, false, Translations.not_in_vehicle)
+            PL.Print.Log(3, Translations.not_in_vehicle)
             return
         end
         xTarget.triggerEvent("primordial_core:client:repairPedVehicle")
@@ -240,7 +240,7 @@ end
 if AdminCommand.SetAccountMoneyCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.SetAccountMoneyCommand.CommandName, {'admin'}, function(sPlayer, args)
         if not args.playerId.getAccount(args.account) then
-            return PL.Print.Log(3, false, Translations.command_giveaccountmoney_invalid)
+            return PL.Print.Log(3, Translations.command_giveaccountmoney_invalid)
         end
         args.playerId.setAccountMoney(args.account, args.amount, "Government Grant")
     
@@ -266,7 +266,7 @@ end
 if AdminCommand.AddAccountMoneyCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.AddAccountMoneyCommand.CommandName, {'admin'}, function(sPlayer, args)
         if not args.playerId.getAccount(args.account) then
-            return PL.Print.Log(3, false, Translations.command_giveaccountmoney_invalid)
+            return PL.Print.Log(3, Translations.command_giveaccountmoney_invalid)
         end
         args.playerId.addAccountMoney(args.account, args.amount, "Government Grant")
     
@@ -292,7 +292,7 @@ end
 if  AdminCommand.RemoveAccountMoneyCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.RemoveAccountMoneyCommand.CommandName, {'admin'}, function(sPlayer, args)
         if not args.playerId.getAccount(args.account) then
-            return PL.Print.Log(3, false, Translations.command_removeaccountmoney_invalid)
+            return PL.Print.Log(3, Translations.command_removeaccountmoney_invalid)
         end
         args.playerId.removeAccountMoney(args.account, args.amount, "Government Tax")
     
@@ -353,7 +353,7 @@ if AdminCommand.SetGroupCommand.EnableCommand then
     
         if args.group == "superadmin" then
             args.group = "admin"
-            PL.Print.Log(2, false, "Superadmin^7 detected, setting group to ^5admin^7")
+            PL.Print.Log(2, "Superadmin detected, setting group to admin")
         end
         args.playerId.setGroup(args.group)
     
@@ -376,7 +376,7 @@ end
 if AdminCommand.SaveCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.SaveCommand.CommandName, {'admin'}, function(_, args)
         PL.SavePlayer(args.playerId)
-        PL.Print.Log(1, false, ("Saved Player - ^5%s^0"):format(args.playerId.source))
+        PL.Print.Log(1, ("Saved Player - ^5%s^0"):format(args.playerId.source))
     end, true, {
         help = Translations.command_save,
         validate = true,
@@ -396,21 +396,21 @@ end
 
 if AdminCommand.GroupCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.GroupCommand.CommandName, {'user', 'admin'}, function(sPlayer, _, _)
-        PL.Print.Log(1, false, (('%s, you are currently : ^5%s^0'):format(sPlayer.getName(), sPlayer.getGroup())))
+        PL.Print.Log(1, (('%s, you are currently : ^5%s^0'):format(sPlayer.getName(), sPlayer.getGroup())))
     end)
 end
 
 
 if AdminCommand.JobCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.JobCommand.CommandName, {'user', 'admin'}, function(sPlayer)
-        PL.Print.Log(1, false, ("^5%s^0, your job is: ^5%s^0 and you grade is : ^5%s^0"):format(sPlayer.getName(), sPlayer.getSociety().name, sPlayer.getSociety().grade_label))
+        PL.Print.Log(1, ("^5%s^0, your job is: ^5%s^0 and you grade is : ^5%s^0"):format(sPlayer.getName(), sPlayer.getSociety().name, sPlayer.getSociety().grade_label))
     end, false)
 end
 
 if AdminCommand.InfoCommmad.EnableCommand then
     PL.RegisterCommand(AdminCommand.InfoCommmad.CommandName, {'user', 'admin'}, function(sPlayer)
         local job = sPlayer.getSociety().label
-        PL.Print.Log(1, false, ("ID: ^5%s^0 | Name: ^5%s^0 | Group: ^5%s^0 | Job: ^5%s^0"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), job))
+        PL.Print.Log(1, ("ID: ^5%s^0 | Name: ^5%s^0 | Group: ^5%s^0 | Job: ^5%s^0"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), job))
     end, false)
 end
 
@@ -418,7 +418,7 @@ if AdminCommand.FreezeCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.FreezeCommand.CommandName, {'admin'}, function(_, args)
         Freeze = not Freeze
         if not args.playerId then
-            return PL.Print.Log(3, false, 'You must specify a player to freeze.')
+            return PL.Print.Log(3, 'You must specify a player to freeze.')
         end
 
         FreezeEntityPosition(args.playerId.source, Freeze)
@@ -434,10 +434,10 @@ end
 if AdminCommand.PlayersCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.PlayersCommand.CommandName, {'admin'}, function()
         local sPlayers = PL.GetExtendedPlayers()
-        PL.Print.Log(1, false, ("^5%s^2 online player(s)^0"):format(#sPlayers))
+        PL.Print.Log(1, ("^5%s^2 online player(s)^0"):format(#sPlayers))
         for i = 1, #sPlayers do
             local sPlayer = sPlayers[i]
-            PL.Print.Log(1, false, ("^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), sPlayer.identifier))
+            PL.Print.Log(1, ("^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n"):format(sPlayer.source, sPlayer.getName(), sPlayer.getGroup(), sPlayer.identifier))
         end
     end, true)
 end
@@ -445,7 +445,7 @@ end
 if AdminCommand.CreateSocietyCommand.EnableCommand then
     PL.RegisterCommand(AdminCommand.CreateSocietyCommand.CommandName, {'admin'}, function(sPlayer, args)
         if PL.DoesSocietyExist(args.name) then
-            PL.Print.Log(4, false, 'The society already exists.')
+            PL.Print.Log(4, 'The society already exists.')
             return
         end
 
@@ -461,7 +461,7 @@ end
 
 AddEventHandler('primordial_core:server:societyLoaded', function(jobs)
     PL.RegisterCommand('jobs', {'admin'}, function()
-        PL.Print.Log(4, true, "Jobs: ", jobs)
+        PL.Print.Log(4, "Jobs: ", jobs)
     end, false)
 
     PL.RegisterCommand('mysociety', {'user', 'admin'}, function(sPlayer)
@@ -487,9 +487,9 @@ AddEventHandler('primordial_core:server:societyLoaded', function(jobs)
             }
 
             local formattedSocietyInfo = json.encode(societyInfo, { indent = true })
-            PL.Print.Log(1, false, ("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
+            PL.Print.Log(1, ("Informations sur la société et le grade de %s (ID: %s):\n%s"):format(sPlayer.getName(), sPlayer.source, formattedSocietyInfo))
         else
-            PL.Print.Log(3, false, ('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
+            PL.Print.Log(3, ('Erreur: Le joueur %s (ID: %s) n\'est pas assigné à une société.'):format(sPlayer.getName(), sPlayer.source))
         end
     end, false)
 end)

@@ -19,7 +19,7 @@ end)
 local function PlayerDataInfo(targetId, targetName)
     local targetData = lib.callback.await('primordial_admin:server:getPlayerData', 250, targetId)
     if not targetData then
-        return PL.Print.Log(3, false, 'Player Data not found')
+        return PL.Print.Log(3, 'Player Data not found')
     end
 
     local playerData = {}
@@ -110,7 +110,7 @@ local function GiveMoneyToPLayer(targetId, targetName)
         }
     })
     if not inputMoney then
-        return PL.Print.Log(3, false, 'Money Giving Cancelled')
+        return PL.Print.Log(3, 'Money Giving Cancelled')
     end
 
     local successGive = lib.callback.await('primordial_admin:server:giveMoneyToPlayer', 2000, targetId, inputMoney[2], tonumber(inputMoney[1]))
@@ -141,7 +141,7 @@ local function GiveItemToPlayer(targetId, targetName)
         }
     })
     if not itemInput then
-        return PL.Print.Log(3, false, 'Item Giving Cancelled')
+        return PL.Print.Log(3, 'Item Giving Cancelled')
     end
 
     local suucessInput = lib.callback.await('primordial_admin:server:giveItemToPlayer', 2000, targetId, itemInput[1], tonumber(itemInput[2]))
@@ -174,7 +174,7 @@ local function WarnPlayer(targetId, targetName)
 
     local warnDialog = lib.inputDialog(Translations.player_warn_title, warnDialogOptions)
     if not warnDialog then
-        return PL.Print.Log(3, false, 'Warn Player Cancelled')
+        return PL.Print.Log(3, 'Warn Player Cancelled')
     end
 
     
@@ -204,7 +204,7 @@ local function KickPlayer(targetId, targetName)
         }
     })
     if not kickDialog then
-        return PL.Print.Log(3, false, 'Kick Player Cancelled')
+        return PL.Print.Log(3, 'Kick Player Cancelled')
     end
     local dropPlayer = lib.callback.await('primordial_admin:server:kickPlayer', 250, targetId, kickDialog[1] or Translations.kick_default_reason)
     if dropPlayer then
@@ -239,7 +239,7 @@ local function BanPlayer(targetId, targetName)
                     }
                 })
                 if not banReason then
-                    return PL.Print.Log(3, false, 'Ban Player Cancelled')
+                    return PL.Print.Log(3, 'Ban Player Cancelled')
                 end
 
                 local playerBanned = lib.callback.await('primordial_admin:server:banPlayer', 2000, targetId, banTime, banReason[1] or Translations.ban_reason_default)
@@ -522,7 +522,7 @@ local function SearchPlayersId(players, permissions)
     })
 
     if not inputID then
-        return PL.Print.Log(3, false, 'Players ID Search Cancelled')
+        return PL.Print.Log(3, 'Players ID Search Cancelled')
     end
 
     local idPlayers = tonumber(inputID[1])
@@ -538,7 +538,7 @@ local function SearchPlayersId(players, permissions)
         end
     end
     if playerIdFound then return end
-    PL.Print.Log(3, false, 'Player ID: ' .. idPlayers .. ' not found')
+    PL.Print.Log(3, 'Player ID: ' .. idPlayers .. ' not found')
 end
 
 function PlayerOptionsInterface(permissions)

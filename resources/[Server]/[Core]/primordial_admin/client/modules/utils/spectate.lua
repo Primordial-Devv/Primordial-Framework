@@ -79,7 +79,7 @@ local function collisionTpCoordTransition(coords)
         Wait()
         attempts = attempts + 1
         if attempts > 1000 then
-            PL.Print.Log(3, false, 'Failed to load collisions')
+            PL.Print.Log(3, 'Failed to load collisions')
             error()
         end
     end
@@ -98,12 +98,12 @@ local function stopSpectating()
     NetworkSetInSpectatorMode(false, nil)
      SetMinimapInSpectatorMode(false, nil)
     if spectatorReturnCoords then
-        PL.Print.Log(4, false, 'Returning spectator to original coords')
+        PL.Print.Log(4, 'Returning spectator to original coords')
         if not pcall(collisionTpCoordTransition, spectatorReturnCoords) then
-            PL.Print.Log(3, false, 'collisionTpCoordTransition failed!')
+            PL.Print.Log(3, 'collisionTpCoordTransition failed!')
         end
     else
-        PL.Print.Log(3, false, 'No spectator return coords saved')
+        PL.Print.Log(3, 'No spectator return coords saved')
     end
     prepareSpectatorPed(false)
   --  toggleShowPlayerIDs(false, false)
@@ -277,7 +277,7 @@ RegisterNetEvent('primordial_admin:client:spectateStart', function(targetServerI
 
     local coordsUnderTarget = calculateSpectatorCoords(targetCoords)
     if not pcall(collisionTpCoordTransition, coordsUnderTarget) then
-        PL.Print.Log(3, false, 'collisionTpCoordTransition failed!')
+        PL.Print.Log(3, 'collisionTpCoordTransition failed!')
         stopSpectating()
         return
     end
@@ -296,10 +296,10 @@ RegisterNetEvent('primordial_admin:client:spectateStart', function(targetServerI
 
     --If failed to resolve the targer
     if (resolvedPlayerId <= 0 or resolvedPed <= 0) then
-        PL.Print.Log(3, false, 'Failed to resolve target PlayerId or Ped')
+        PL.Print.Log(3, 'Failed to resolve target PlayerId or Ped')
         -- reset spectator
         if not pcall(collisionTpCoordTransition, spectatorReturnCoords) then
-            PL.Print.Log(3, false, 'collisionTpCoordTransition failed!')
+            PL.Print.Log(3, 'collisionTpCoordTransition failed!')
         end
         prepareSpectatorPed(false)
         -- Fade screen back

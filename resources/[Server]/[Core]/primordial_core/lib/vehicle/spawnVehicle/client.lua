@@ -17,7 +17,7 @@ function PL.Vehicle.SpawnClientVehicle(vehicleModel, coords, heading, cb, networ
     local dist = #(playerCoords - vector)
     if dist > 424 then -- Onesync infinity Range (https://docs.fivem.net/docs/scripting-reference/onesync/)
         local executingResource = GetInvokingResource() or "Unknown"
-        return PL.Print.Log(3, false, ("Resource ^1%s^5 Tried to spawn vehicle on the client but the position is too far away (Out of onesync range)."):format(executingResource))
+        return PL.Print.Log(3, ("Resource ^1%s^5 Tried to spawn vehicle on the client but the position is too far away (Out of onesync range)."):format(executingResource))
     end
 
     CreateThread(function()

@@ -6,22 +6,22 @@ RegisterServerEvent("primordial_core:exitedVehicle")
 
 if EnableDebug then
     AddEventHandler("primordial_core:playerPedChanged", function(netId)
-        PL.Print.Log(4, false, "primordial_core:playerPedChanged", source, netId)
+        PL.Print.Log(4, "primordial_core:playerPedChanged", source, netId)
     end)
 
     AddEventHandler("primordial_core:enteringVehicle", function(plate, seat, netId)
-        PL.Print.Log(4, false, "primordial_core:enteringVehicle", "source", source, "plate", plate, "seat", seat, "netId", netId)
+        PL.Print.Log(4, "primordial_core:enteringVehicle", "source", source, "plate", plate, "seat", seat, "netId", netId)
     end)
 
     AddEventHandler("primordial_core:enteringVehicleAborted", function()
-        PL.Print.Log(4, false, "primordial_core:enteringVehicleAborted", source)
+        PL.Print.Log(4, "primordial_core:enteringVehicleAborted", source)
     end)
 
     AddEventHandler("primordial_core:enteredVehicle", function(plate, seat, displayName, netId)
-        PL.Print.Log(4, false, "primordial_core:enteredVehicle", "source", source, "plate", plate, "seat", seat, "displayName", displayName, "netId", netId)
+        PL.Print.Log(4, "primordial_core:enteredVehicle", "source", source, "plate", plate, "seat", seat, "displayName", displayName, "netId", netId)
     end)
 
     AddEventHandler("primordial_core:exitedVehicle", function(plate, seat, displayName, netId)
-        PL.Print.Log(4, false, "primordial_core:exitedVehicle", "source", source, "plate", plate, "seat", seat, "displayName", displayName, "netId", netId)
+        PL.Print.Log(4, "primordial_core:exitedVehicle", "source", source, "plate", plate, "seat", seat, "displayName", displayName, "netId", netId)
     end)
 end

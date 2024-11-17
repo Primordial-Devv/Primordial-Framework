@@ -173,19 +173,7 @@ function OpenManageEmployeesMenu(society, options)
 end
 
 function OpenEmployeeList(society, options)
-	-- PL.Print.Info("OpenEmployeeList called with society: " .. society)
     local employees = lib.callback.await('primordial_core:server:getEmployees', false, society)
-    -- if employees then
-	--     PL.Print.Info("Received employees data: " .. json.encode(employees, {indent = true}))
-    -- else
-	--     PL.Print.Error("Failed to receive employees data.")
-    -- end
-
-    -- if #employees == 0 then
-	--     PL.Print.Error("No employees received.")
-    -- else
-	--     PL.Print.Info("Number of employees received: " .. #employees)
-    -- end
 
     local elements = {}
 
@@ -197,7 +185,6 @@ function OpenEmployeeList(society, options)
             title = employees[i].name .. " | " .. gradeLabel,
             icon = "fas fa-user",
             onSelect = function()
-	            -- PL.Print.Info("Selected employee: " .. employees[i].name .. " | " .. gradeLabel)
                 local employee = data
 
                 lib.registerContext({
@@ -226,7 +213,7 @@ function OpenEmployeeList(society, options)
 								if success then
 									OpenEmployeeList(society, options)
 								else
-									PL.Print.Log(3, false, "Failed to fire employee.")
+									PL.Print.Log(3, "Failed to fire employee.")
 								end
                             end
                         }
@@ -238,8 +225,6 @@ function OpenEmployeeList(society, options)
         })
     end
 
-	-- PL.Print.Info("Registering employee list context.")
-
     lib.registerContext({
         id = "employee_list",
         title = Translations.employees_title,
@@ -248,7 +233,6 @@ function OpenEmployeeList(society, options)
         options = elements
     })
 
-	--PL.Print.Info("Showing employee list context.")
     lib.showContext("employee_list")
 end
 
@@ -271,7 +255,7 @@ function OpenRecruitMenu(society, options)
 					if success then
 						OpenRecruitMenu(society, options)
 					else
-						PL.Print.Log(3, false, "Failed to hire employee.")
+						PL.Print.Log(3, "Failed to hire employee.")
 					end
 				end
 			})
@@ -307,7 +291,7 @@ function OpenPromoteMenu(society, employee, options)
 				if success then
 					OpenEmployeeList(society, options)
 				else
-					PL.Print.Log(3, false, "Failed to promote employee.")
+					PL.Print.Log(3, "Failed to promote employee.")
 				end
 			end
 		})
@@ -367,7 +351,7 @@ function OpenManageSalaryMenu(society, options)
 						if success then
 							OpenManageSalaryMenu(society, options)
 						else
-							PL.Print.Log(3, false, "Failed to change job salary.")
+							PL.Print.Log(3, "Failed to change job salary.")
 						end
 					end
 				else
@@ -422,7 +406,7 @@ function OpenManageGradesMenu(society, options)
 					if success then
 						OpenManageGradesMenu(society, options)
 					else
-						PL.Print.Log(3, false, "Failed to change job label.")
+						PL.Print.Log(3, "Failed to change job label.")
 					end
 				else
 					lib.notify({

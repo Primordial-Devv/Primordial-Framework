@@ -9,7 +9,7 @@ function _L(key)
     for k in key:gmatch("[^.]+") do
         value = value[k]
         if not value then
-            PL.Print.Log(3, false, "Missing locale for: " .. key)
+            PL.Print.Log(3, "Missing locale for: " .. key)
             return ""
         end
     end

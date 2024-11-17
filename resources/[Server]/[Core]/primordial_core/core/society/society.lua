@@ -14,7 +14,7 @@ exports("GetSociety", GetSociety)
 --- @param data table The additional data for the society (money, iban, inventory, etc.).
 local function registerSociety(name, label, data)
     if Societies[name] then
-        PL.Print.Log(2, false, ('Society already registered, name: ^5%s^7'):format(name))
+        PL.Print.Log(2, ('Society already registered, name: ^5%s^7'):format(name))
         return
     end
 
@@ -54,7 +54,7 @@ AddEventHandler('primordial_core:server:withdrawMoney', function(societyName, am
     local society <const> = GetSociety(societyName)
 
     if not society then
-        PL.Print.Log(2, false, ('Player ^5%s^7 attempted to withdraw from non-existing society - ^5%s^7!'):format(source, societyName))
+        PL.Print.Log(2, ('Player ^5%s^7 attempted to withdraw from non-existing society - ^5%s^7!'):format(source, societyName))
         return
     end
 
@@ -76,7 +76,7 @@ AddEventHandler('primordial_core:server:depositMoney', function(societyName, amo
     local society <const> = GetSociety(societyName)
 
     if not society then
-        PL.Print.Log(2, false, ('Player ^5%s^7 attempted to deposit to non-existing society - ^5%s^7!'):format(source, societyName))
+        PL.Print.Log(2, ('Player ^5%s^7 attempted to deposit to non-existing society - ^5%s^7!'):format(source, societyName))
         return
     end
 

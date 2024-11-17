@@ -12,7 +12,7 @@ function PL.Streaming.Utils.StreamingRequest(request, hasLoaded, assetType, asse
 
     request(asset, ...)
 
-    PL.Print.Log(2, false, ("Loading %s '%s' - remember to release it when done."):format(assetType, asset))
+    PL.Print.Log(2, ("Loading %s '%s' - remember to release it when done."):format(assetType, asset))
 
     return PL.Utils.WaitFor(function()
         if hasLoaded(asset) then return asset end
