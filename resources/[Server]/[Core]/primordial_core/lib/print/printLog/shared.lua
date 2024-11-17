@@ -1,4 +1,4 @@
---- Print a log message to the console with support for multiple levels, arguments, and optional indentation for tables.
+--- Print a log message to the console with support for multiple levels and arguments.
 ---@alias LogLevel number
 ---| 1 INFO
 ---| 2 WARN
@@ -15,9 +15,8 @@ local LOG_LEVELS <const> = {
 --- Serialize a value into a string representation for printing.
 ---@param value any The value to serialize.
 ---@param level? number The current indentation level (used recursively).
----@param indent? boolean Whether to format tables with indentation.
 ---@return string The serialized string representation of the value.
-local function serialize(value, level, indent)
+local function serialize(value, level)
     level = level or 0
     local valueType = type(value)
     local spacing <const> = string.rep("  ", level)
@@ -27,17 +26,13 @@ local function serialize(value, level, indent)
     elseif valueType == "number" or valueType == "boolean" then
         return tostring(value)
     elseif valueType == "table" then
-        local serializedTable = indent and "{\n" or "{ "
+        local serializedTable = "{\n"
         for k, v in pairs(value) do
-            local serializedKey = serialize(k, nil, false)
-            local serializedValue = serialize(v, level + 1, indent)
-            if indent then
-                serializedTable = serializedTable .. spacing .. "  [" .. serializedKey .. "] = " .. serializedValue .. ",\n"
-            else
-                serializedTable = serializedTable .. "[" .. serializedKey .. "] = " .. serializedValue .. ", "
-            end
+            local serializedKey = serialize(k)
+            local serializedValue = serialize(v, level + 1)
+            serializedTable = serializedTable .. spacing .. "  [" .. serializedKey .. "] = " .. serializedValue .. ",\n"
         end
-        serializedTable = indent and serializedTable:sub(1, -3) .. "\n" .. spacing .. "}" or serializedTable:sub(1, -3) .. " }"
+        serializedTable = serializedTable:sub(1, -3) .. "\n" .. spacing .. "}"
         return serializedTable
     elseif valueType == "function" then
         return ("<function: %s>"):format(tostring(value))
@@ -50,19 +45,17 @@ end
 
 --- Print a log message to the console.
 ---@param level LogLevel The level of the log (1 = INFO, 2 = WARN, 3 = ERROR, 4 = DEBUG).
----@param indent? boolean Whether to format tables with indentation (defaults to false).
 ---@vararg any The message(s) or variable(s) to print.
-function PL.Print.Log(level, indent, ...)
+function PL.Print.Log(level, ...)
     local invokingResource <const> = GetInvokingResource()
     local resourceName <const> = invokingResource and invokingResource:upper() or "UNKNOWN RESOURCE"
     local args = { ... }
-    indent = type(indent) == "boolean" and indent or false
 
     local levelDetails <const> = LOG_LEVELS[level] or LOG_LEVELS[1]
 
     local logMessage = ""
     for i, arg in ipairs(args) do
-        logMessage = logMessage .. serialize(arg, 0, indent) .. (i < #args and ", " or "")
+        logMessage = logMessage .. serialize(arg, 0) .. (i < #args and ", " or "")
     end
 
     print(('[^5%s] %s[%s] ^5: %s^7'):format(resourceName, levelDetails.color, levelDetails.label, logMessage))
