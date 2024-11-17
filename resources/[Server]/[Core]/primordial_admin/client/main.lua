@@ -30,11 +30,11 @@ RegisterCommand('~=++openadmininterface', function()
     local permissions = lib.callback.await('primordial_admin:server:checkAdminPerms', 200)
 
     if not permissions or not permissions?.open then
-        PL.Print.Log(3, false, 'You do not have the required permissions to use the admin interface.')
+        PL.Print.Log(3, 'You do not have the required permissions to use the admin interface.')
         return
     end
 
-    PL.Print.Log(1, false, 'Opening the admin interface...')
+    PL.Print.Log(1, 'Opening the admin interface...')
     AdminInterface(permissions)
 end)
 

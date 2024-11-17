@@ -532,9 +532,9 @@ AddEventHandler("Lys_EMS:Server:SendWebhooksPPA", function(payload)
     local webhookUrl = "https://discord.com/api/webhooks/1146051699757301871/K35A1Art3iqnCQnuS-dgM1D7sNd2UXi-ko1SDAkp5psjOeH7RPYmrHEvUeD1YPO-VtPg"
     PerformHttpRequest(webhookUrl, function(statusCode, text, headers)
         if statusCode == 200 then
-            PL.Print.Log(1, false, "Message envoyé sur Discord avec succès.")
+            PL.Print.Log(1, "Message envoyé sur Discord avec succès.")
         else
-            PL.Print.Log(3, false, "Erreur lors de l'envoi du message sur Discord. Code de statut :", statusCode)
+            PL.Print.Log(3, "Erreur lors de l'envoi du message sur Discord. Code de statut :", statusCode)
         end
     end, "POST", json.encode(payload), {["Content-Type"] = "application/json"})
 end)
@@ -544,9 +544,9 @@ AddEventHandler("Lys_EMS:Server:SendWebhooksCheckup", function(payload)
     local webhookUrl = "https://discord.com/api/webhooks/1146051699757301871/K35A1Art3iqnCQnuS-dgM1D7sNd2UXi-ko1SDAkp5psjOeH7RPYmrHEvUeD1YPO-VtPg"
     PerformHttpRequest(webhookUrl, function(statusCode, text, headers)
         if statusCode == 200 then
-            PL.Print.Log(1, false, "Message envoyé sur Discord avec succès.")
+            PL.Print.Log(1, "Message envoyé sur Discord avec succès.")
         else
-            PL.Print.Log(3, false, "Erreur lors de l'envoi du message sur Discord. Code de statut :", statusCode)
+            PL.Print.Log(3, "Erreur lors de l'envoi du message sur Discord. Code de statut :", statusCode)
         end
     end, "POST", json.encode(payload), {["Content-Type"] = "application/json"})
 end)
@@ -556,9 +556,9 @@ AddEventHandler("Lys_EMS:Server:SendWebhooksRecruit", function(payload)
     local webhookUrl = "https://discord.com/api/webhooks/1146051699757301871/K35A1Art3iqnCQnuS-dgM1D7sNd2UXi-ko1SDAkp5psjOeH7RPYmrHEvUeD1YPO-VtPg"
     PerformHttpRequest(webhookUrl, function(statusCode, text, headers)
         if statusCode == 200 then
-            PL.Print.Log(1, false, "Message envoyé sur Discord avec succès.")
+            PL.Print.Log(1, "Message envoyé sur Discord avec succès.")
         else
-            PL.Print.Log(3, false, "Erreur lors de l'envoi du message sur Discord. Code de statut :", statusCode)
+            PL.Print.Log(3, "Erreur lors de l'envoi du message sur Discord. Code de statut :", statusCode)
         end
     end, "POST", json.encode(payload), {["Content-Type"] = "application/json"})
 end)

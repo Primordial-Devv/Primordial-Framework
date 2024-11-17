@@ -1,6 +1,6 @@
 function TeleportToMarker()
     if not IsWaypointActive() then
-        return PL.Print.Log(3, false, 'No Waypoint Set, Please Set a Waypoint First')
+        return PL.Print.Log(3, 'No Waypoint Set, Please Set a Waypoint First')
     end
 
     local blipMarker = GetFirstBlipInfoId(8)

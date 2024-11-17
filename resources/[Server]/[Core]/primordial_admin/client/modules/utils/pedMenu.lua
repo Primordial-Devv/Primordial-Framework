@@ -12,7 +12,7 @@ function PedMenu()
                     if skin then
                         TriggerEvent('skinchanger:loadSkin', skin)
                     else
-                        PL.Print.Log(3, false, 'Failed to load skin')
+                        PL.Print.Log(3, 'Failed to load skin')
                     end
                 else
                     PL.Streaming.RequestModel(v.Model)

@@ -1,6 +1,6 @@
 function PL.Notification(params)
     if not params.message then
-        PL.Print.Log(3, false, 'Notification message is required')
+        PL.Print.Log(3, 'Notification message is required')
         return
     end
 
@@ -10,7 +10,7 @@ function PL.Notification(params)
     local duration = params.duration or 5000
 
     if image then
-        PL.Print.Log(4, false, 'Notification with image')
+        PL.Print.Log(4, 'Notification with image')
 
         SendNUIMessage({
             action = 'showNotification',
@@ -21,7 +21,7 @@ function PL.Notification(params)
             hasImage = true
         })
     else
-        PL.Print.Log(4, false, 'Notification without image')
+        PL.Print.Log(4, 'Notification without image')
 
         SendNUIMessage({
             action = 'showNotification',

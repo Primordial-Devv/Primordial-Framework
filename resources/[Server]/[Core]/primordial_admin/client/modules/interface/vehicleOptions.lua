@@ -85,7 +85,7 @@ local function SpawnVehicle()
     local plate = GetVehicleNumberPlateText(vehicle)
 
     TaskWarpPedIntoVehicle(player, vehicle, -1)
-    PL.Print.Log(3, false, 'Need key system to be setup')
+    PL.Print.Log(3, 'Need key system to be setup')
     SetModelAsNoLongerNeeded(vehicle)
 end
 
@@ -156,7 +156,7 @@ local function ChangePlate()
             }
         })
         if not plateInput then
-            return PL.Print.Log(3, false, 'No plate input')
+            return PL.Print.Log(3, 'No plate input')
         end
         PL.Vehicle.SetVehicleProperties(currentVehicle, {
             plate = tostring(plateInput[1]),
@@ -275,7 +275,7 @@ local function ChangeVehicleColor()
             }
         })
         if not colorInput then
-            return PL.Print.Log(3, false, 'No color input')
+            return PL.Print.Log(3, 'No color input')
         end
 
         local newPrimaryColor = HexToRgb(colorInput[1])
@@ -372,7 +372,7 @@ function VehicleOptionsInterface(permissions)
             description = Translations.vehicle_options_give_keys_description,
             icon = 'fa-solid fa-key',
             onSelect = function()
-                PL.Print.Log(3, false, 'Need key system to be setup')
+                PL.Print.Log(3, 'Need key system to be setup')
             end
         }
     end

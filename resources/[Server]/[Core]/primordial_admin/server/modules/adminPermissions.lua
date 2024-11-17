@@ -42,7 +42,7 @@ function PrimordialAdminPermissions(source)
         end
     end
     while not isPlayerAuthorized do
-        PL.Print.Log(1, false, '^3Checking permissions...')
+        PL.Print.Log(1, 'Checking permissions...')
         Wait()
     end
     return isPlayerAuthorized

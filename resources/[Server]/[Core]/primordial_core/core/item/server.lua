@@ -17,11 +17,11 @@ function PL.UseItem(source, item, ...)
             local success, result = pcall(itemCallback, source, item, ...)
 
             if not success then
-                return result and PL.Print.Log(4, false, result) or PL.Print.Log(3, false, ('An error occured when using item ^5"%s"^7! This was not caused by Primordial Core.'):format(item))
+                return result and PL.Print.Log(4, result) or PL.Print.Log(3, ('An error occured when using item ^5"%s"^7! This was not caused by Primordial Core.'):format(item))
             end
         end
     else
-        PL.Print.Log(2, false, ('Item ^5"%s"^7 was used but does not exist!'):format(item))
+        PL.Print.Log(2, ('Item ^5"%s"^7 was used but does not exist!'):format(item))
     end
 end
 
@@ -37,7 +37,7 @@ function PL.GetItemLabel(item)
     if PL.Items[item] then
         return PL.Items[item].label
     else
-        PL.Print.Log(2, false, ("Attemting to get invalid Item -> ^5%s^7"):format(item))
+        PL.Print.Log(2, ("Attemting to get invalid Item -> ^5%s^7"):format(item))
     end
 end
 

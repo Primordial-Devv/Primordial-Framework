@@ -7,7 +7,7 @@ MySQL.ready(function()
 		p:resolve(true)
 	end)
 	Citizen.Await(p)
-    PL.Print.Log(1, false, ('%s Licenses Loaded'):format(#licenses))
+    PL.Print.Log(1, ('%s Licenses Loaded'):format(#licenses))
 end)
 
 local function AddLicenseToPlayer(identifier, licenseType, cb)
@@ -77,7 +77,7 @@ AddEventHandler('primordial_core:server:addLicense', function(target, licenseTyp
 		if IsLicenseValid(licenseType) then
 			AddLicenseToPlayer(sPlayer.getIdentifier(), licenseType, cb)
 		else
-			PL.Print.Log(3, false, ('Missing license type in db ^5%s^0 or someone try to use lua executor ID: ^5%s^0'):format(licenseType, target))
+			PL.Print.Log(3, ('Missing license type in db ^5%s^0 or someone try to use lua executor ID: ^5%s^0'):format(licenseType, target))
 		end
 	end
 end)

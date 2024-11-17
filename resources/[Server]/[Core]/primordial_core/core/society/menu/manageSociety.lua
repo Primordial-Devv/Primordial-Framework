@@ -57,7 +57,7 @@ local function PropertyTransfer(Job)
     local nearbyPlayers <const> = PL.Player.GetNearbyPlayers(authorCoords, 10.0, true)
 
     if #nearbyPlayers == 0 then
-        PL.Print.Log(3, false, 'No nearby players for property transfer.')
+        PL.Print.Log(3, 'No nearby players for property transfer.')
         return
     end
 

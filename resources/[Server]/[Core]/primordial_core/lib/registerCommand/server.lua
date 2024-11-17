@@ -23,7 +23,7 @@ function PL.RegisterCommand(commandName, groups, callbackFunction, allowConsole,
     end
 
     if PL.RegisteredCommands[commandName] then
-        PL.Print.Log(2, false, ('Command "%s" already registered, overriding command'):format(commandName))
+        PL.Print.Log(2, ('Command "%s" already registered, overriding command'):format(commandName))
         if PL.RegisteredCommands[commandName].suggestion then
             TriggerClientEvent("chat:removeSuggestion", -1, ("/%s"):format(commandName))
         end
@@ -47,7 +47,7 @@ function PL.RegisterCommand(commandName, groups, callbackFunction, allowConsole,
 
         local function handleError(msg)
             if source == 0 then
-                PL.Print.Log(3, false, msg)
+                PL.Print.Log(3, msg)
             else
                 lib.notify(source, {
                     title = msg;
@@ -170,7 +170,7 @@ function PL.RegisterCommand(commandName, groups, callbackFunction, allowConsole,
 
         callbackFunction(sPlayer or false, args, function(msg)
             if source == 0 then
-                PL.Print.Log(2, false, msg)
+                PL.Print.Log(2, msg)
             else
                 lib.notify(sPlayer.source, {
                     title = msg;

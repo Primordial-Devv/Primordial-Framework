@@ -4,7 +4,7 @@ local savedCoords = {}
 RegisterNetEvent('primordial_admin:server:checkNotPassed', function(source, feature)
     local source = source
     local sourrceOfCheckFailed = PL.GetPlayerFromId(source)
-    PL.Print.Log(3, false, ('^3Player ^1%s ^3tried to use the ^5%s ^3feature without permission.'):format(sourrceOfCheckFailed['name'], feature))
+    PL.Print.Log(3, ('^3Player ^1%s ^3tried to use the ^5%s ^3feature without permission.'):format(sourrceOfCheckFailed['name'], feature))
 end)
 
 RegisterNetEvent('primordial_admin:server:initializePlayers', function()
@@ -38,7 +38,7 @@ RegisterNetEvent('primordial_admin:server:teleportToPlayer', function(targetId)
     local source = source
     local targetCoords = GetEntityCoords(GetPlayerPed(targetId))
     if not targetCoords then
-        return PL.Print.Log(3, false, ('Staff member try to teleport to a player but the coords of the player are not found.'))
+        return PL.Print.Log(3, ('Staff member try to teleport to a player but the coords of the player are not found.'))
     end
     SetEntityCoords(source, targetCoords)
 end)
@@ -48,7 +48,7 @@ RegisterNetEvent('primordial_admin:server:teleportPlayerTo', function(targetId, 
     local sourceCoords = GetEntityCoords(GetPlayerPed(source))
     local targetCoords = GetEntityCoords(GetPlayerPed(targetId))
     if not sourceCoords then
-        return PL.Print.Log(3, false, ('Staff member try to teleport a player to him but his coords are not found.'))
+        return PL.Print.Log(3, ('Staff member try to teleport a player to him but his coords are not found.'))
     end
     savedCoords[targetId] = {
         id = targetId,
@@ -61,7 +61,7 @@ end)
 RegisterNetEvent('primordial_admin:server:teleportBackPlayer', function(targetId)
     local targetCoords = savedCoords[targetId].coords
     if not targetCoords then
-        return PL.Print.Log(3, false, ('Staff member try to teleport a player back to his previous location but the coords are not found.'))
+        return PL.Print.Log(3, ('Staff member try to teleport a player back to his previous location but the coords are not found.'))
     end
     SetEntityCoords(targetId, targetCoords)
     savedCoords[targetId] = nil
@@ -134,7 +134,7 @@ RegisterNetEvent('primordial_admin:server:deleteEntity', function(netId)
 end)
 
 PL.RegisterCommand('pl', {'admin'}, function(sPlayer)
-    PL.Print.Log(4, true, sPlayer)
+    PL.Print.Log(4, json.encode(sPlayer, {indent = true}))
 end, false, {
     help = 'Player',
 })
