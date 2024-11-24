@@ -39,6 +39,7 @@ server_scripts {
 	'core/society/initSociety.lua',
 	'core/society/society.lua',
 	'core/**/server.lua',
+	'core/resources/server.lua',
 
 	'lib/**/**/server.lua',
 	'lib/**/server.lua',
@@ -66,6 +67,8 @@ client_scripts {
 
 	'core/society/menu/*.lua',
 	'core/society/createSociety.lua',
+	'core/resources/client.lua',
+	'core/resources/interface/main.lua',
 
 	'core/modules/*.lua',
 	'core/modules/**/client.lua',

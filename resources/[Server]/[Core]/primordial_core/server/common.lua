@@ -58,6 +58,22 @@ local function StartDBSync()
     end)
 end
 
+--- Retrieve all server resources.
+---@return number resources The number of resources
+local function GetAllServerResources()
+    local resources = {}
+
+    for i = 0, GetNumResources() - 1 do
+        local resourceName = GetResourceByFindIndex(i)
+        if resourceName then
+            resources[#resources + 1] = resourceName
+        end
+    end
+
+    return #resources
+end
+
+
 MySQL.ready(function()
     PL.DatabaseConnected = true
     TriggerEvent("__cfx_export_ox_inventory_Items", function(ref)
@@ -74,10 +90,13 @@ MySQL.ready(function()
         Wait(0)
     end
 
+    
     PL.InitSociety()
-
+    
     PL.Print.Log(1, ("^5[%s - %s] ^2Framework initialized!"):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0), GetCurrentResourceName()))
-
+    
     StartDBSync()
     StartPayCheck()
+    local allResources = GetAllServerResources()
+    PL.Print.Log(1, ('%s server resources loaded:'):format(allResources))
 end)
